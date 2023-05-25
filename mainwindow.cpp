@@ -1,46 +1,26 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "dbmanager.h"
+#include "messagehandler.h"
 #include "loadsignatureform.h"
 #include "loadsenddocform.h"
-
-#include <QSpacerItem>
-#include <QMessageBox>
-#include <QSqlQuery>
+#include "putsignatureform.h"
+#include "settingsform.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
-      ui(new Ui::MainWindow),
-      db(DBManager::instance().getDatabase()),
-      userId_(0), signWidth_(77), signHeight_(23)
+      ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->resize(700, 500);
 
-    auto& lineEditRef = ui->signupManageCodeEdit;
-    auto& labelRef = ui->signupManageCodeLabel;
-    auto& spacerRef = ui->signupCodeHorizontalSpacer;
-
-    connect(ui->signupTypeAccComboBox, &QComboBox::currentTextChanged, this,
-            [lineEditRef, labelRef, spacerRef](const QString& text)
-    {
-        if (text == "Підписант") {
-            spacerRef->changeSize(0, 20);
-            lineEditRef->hide();
-            labelRef->hide();
-        }
-        else if (text == "Менеджер") {
-            spacerRef->changeSize(20, 20);
-            lineEditRef->show();
-            labelRef->show();
-        }
-    });
-
+    //ui->stackedWidget->setCurrentWidget(ui->loginPage);
+    //ui->tabWidget->setCurrentWidget(ui->loginTab);
     ui->signupTypeAccComboBox->setCurrentIndex(0);
 }
 
 MainWindow::~MainWindow()
 {
-    db.close();
     delete ui;
 }
 
@@ -48,71 +28,49 @@ MainWindow::~MainWindow()
 void MainWindow::on_signupButton_clicked()
 {
     if (ui->signupFnameEdit->text().length() < 3) {
-        QMessageBox::warning(this, "Некоректне ім'я", "Ви ввели некоректне ім'я. "
-                                                      "Спробуйте ще раз!");
+        MessageHandler::showEmptyEditWarning(this, "Ім'я");
         return;
     }
 
     if (ui->signupLnameEdit->text().length() < 3) {
-        QMessageBox::warning(this, "Некоректне прізвище", "Ви ввели некоректне прізвище. "
-                                                          "Спробуйте ще раз!");
+        MessageHandler::showEmptyEditWarning(this, "Прізвище");
         return;
     }
 
-    QSqlQuery query;
-    query.prepare("SELECT * FROM users WHERE first_name = :first_name AND last_name = :last_name");
-    query.bindValue(":first_name", ui->signupFnameEdit->text());
-    query.bindValue(":last_name", ui->signupLnameEdit->text());
-
-    if (query.exec() && query.next()) {
-        QMessageBox::warning(this, "Акаунт вже існує", "Користувач з таким ім'ям та прізвищем вже "
-                                                       "існує. Перевірте коректність даних!");
+    int checkID = DBManager::selectIdFromUsers(ui->signupFnameEdit->text(),
+                                               ui->signupLnameEdit->text());
+    if (checkID >= 0) {
+        MessageHandler::showSameAccountWarning(this);
         return;
     }
 
     if (ui->signupPasswordEdit->text().length() < 3) {
-        QMessageBox::warning(this, "Некоректний пароль", "Ви ввели некоректний пароль. "
-                                                         "Спробуйте ще раз!");
+        MessageHandler::showEmptyEditWarning(this, "Пароль");
         return;
     }
 
     if (ui->signupRepPasswordEdit->text() != ui->signupPasswordEdit->text()) {
-        QMessageBox::warning(this, "Паролі не свівпадають", "Ви ввели паролі, які не свівпадають. "
-                                                            "Спробуйте ще раз!");
+        MessageHandler::showEmptyEditWarning(this, "Повторити пароль");
         return;
     }
 
     if (ui->signupJobTitleEdit->text().length() < 3) {
-        QMessageBox::warning(this, "Некоректна посада", "Ви ввели некоректну посаду. "
-                                                         "Спробуйте ще раз!");
+        MessageHandler::showEmptyEditWarning(this, "Посада");
         return;
     }
 
-    if (ui->signupTypeAccComboBox->currentText() == "Менеджер") {
-        query.clear();
-        if (query.exec("SELECT value_ FROM settings WHERE name_ = 'Код для реєстрації менеджера'")
-                && query.next()
-                && ui->signupManageCodeEdit->text() != query.value("value_").toString()) {
-            QMessageBox::warning(this, "Некоректний код", "Ви ввели некоректний код для реєстрації"
-                                                          " менеджера. Спробуйте ще раз!");
+    if (ui->signupTypeAccComboBox->currentText() == "Менеджер") {     
+        int regCode = DBManager::selectValueFromSettings("Код для реєстрації менеджера").toInt();
+        if (regCode != ui->signupManageCodeEdit->text().toInt()) {
+            MessageHandler::showEmptyEditWarning(this, "Код для реєстрації менеджера");
             return;
         }
     }
 
-    query.clear();
-    query.prepare("INSERT INTO users (first_name, last_name, user_password, job_title, user_type) "
-                  "VALUES (:first_name, :last_name, :user_password, :job_title, :user_type)");
-    query.bindValue(":first_name", ui->signupFnameEdit->text());
-    query.bindValue(":last_name", ui->signupLnameEdit->text());
-    query.bindValue(":user_password", ui->signupPasswordEdit->text());
-    query.bindValue(":job_title", ui->signupJobTitleEdit->text());
-    query.bindValue(":user_type", ui->signupTypeAccComboBox->currentText());
-
-    if (!query.exec()) {
-        qDebug() << query.lastError().text();
-    }
-    else {
-        QMessageBox::information(this, "Успіх", "Акаунт успішно зареєстрований!");
+    if (DBManager::insertUsers(ui->signupFnameEdit->text(), ui->signupLnameEdit->text(),
+                           ui->signupPasswordEdit->text(), ui->signupJobTitleEdit->text(),
+                           ui->signupTypeAccComboBox->currentText())) {
+        MessageHandler::showSuccessInfo(this, "Акаунт успішно зареєстрований!");
     }
 }
 
@@ -120,88 +78,116 @@ void MainWindow::on_signupButton_clicked()
 void MainWindow::on_loginButton_clicked()
 {
     if (ui->loginFnameEdit->text().length() < 3) {
-        QMessageBox::warning(this, "Некоректне ім'я", "Ви ввели некоректне ім'я. "
-                                                      "Спробуйте ще раз!");
+        MessageHandler::showEmptyEditWarning(this, "Ім'я");
         return;
     }
 
     if (ui->loginLnameEdit->text().length() < 3) {
-        QMessageBox::warning(this, "Некоректне прізвище", "Ви ввели некоректне прізвище. "
-                                                          "Спробуйте ще раз!");
+        MessageHandler::showEmptyEditWarning(this, "Прізвище");
         return;
     }
 
-    QSqlQuery query;
-    query.prepare("SELECT * FROM users "
-                  "WHERE first_name = :first_name AND last_name = :last_name");
-    query.bindValue(":first_name", ui->loginFnameEdit->text());
-    query.bindValue(":last_name", ui->loginLnameEdit->text());
-
-    if (!query.exec()) {
-        QMessageBox::critical(this, "Помилка підключення бази данных",
-                                  "Не вдалося підключитися до бази даних. "
-                                  "Перевірте налаштування підключення.");
+    if (ui->loginPasswordEdit->text().length() < 3) {
+        MessageHandler::showEmptyEditWarning(this, "Пароль");
         return;
     }
 
-    if (!query.next()) {
-        QMessageBox::warning(this, "Акаунта не існує", "Користувача з таким ім'ям"
-                                                       " та прізвищем не існує. "
-                                                       "Перевірте коректність даних!");
+    QList<QString> userInfo = DBManager::selectFromUsers(ui->loginFnameEdit->text(),
+                                                         ui->loginLnameEdit->text());
+    if (userInfo.isEmpty()) {
+        MessageHandler::showNotExistAccountWarning(this);
         return;
     }
 
-    if (ui->loginPasswordEdit->text() != query.value("user_password").toString()) {
-        QMessageBox::warning(this, "Некоректний пароль", "Ви ввели некоректний пароль. "
-                                                         "Спробуйте ще раз!");
+    if (ui->loginPasswordEdit->text() != userInfo.at(1)) {
+        MessageHandler::showWrongPasswordWarning(this);
         return;
     }
 
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentWidget(ui->menuPage);
+    ui->menuUserNameLabel->setText("Вітаємо, " + ui->loginFnameEdit->text() + ' ' +
+                                   ui->loginLnameEdit->text() + '!');
+    ui->menuJobTitleLabel->setText("Посада: " + userInfo.at(2));
+    ui->menuTypeAccLabel->setText("Тип акаунта: " + userInfo.at(3));
 
-    ui->menuUserNameLabel->setText(ui->menuUserNameLabel->text() +
-                                   query.value("last_name").toString() + ' ' +
-                                   query.value("first_name").toString() + '!');
-    ui->menuTypeAccLabel->setText(ui->menuTypeAccLabel->text() +
-                                  query.value("user_type").toString());
-    userId_ = query.value("id").toInt();
-
-    query.clear();
-    query.prepare("SELECT value_ FROM settings "
-                  "WHERE name_ = 'Ширина підпису' OR name_ = 'Висота підпису'");
-
-    if (!query.exec()) {
-        QMessageBox::critical(this, "Помилка підключення бази данных",
-                                  "Не вдалося підключитися до бази даних. "
-                                  "Перевірте налаштування підключення.");
-        return;
-    }
-
-    if (query.next()) {
-        signHeight_ = query.value("value_").toInt();
-        if (query.next()) {
-            signWidth_ = query.value("value_").toInt();
-        }
-    }
+    DBManager::userId = userInfo.at(0).toInt();
 }
 
 
 void MainWindow::on_loadSignatureButton_clicked()
 {
-    LoadSignatureForm loadSignatureForm(userId_, signWidth_, signHeight_);
-    loadSignatureForm.setModal(true);
-    hide();
-    loadSignatureForm.exec();
-    show();
+    int signWidth = DBManager::selectValueFromSettings("Ширина підпису").toInt();
+    int signHeight = DBManager::selectValueFromSettings("Висота підпису").toInt();
+    if (signWidth > 0 && signHeight > 0) {
+        LoadSignatureForm loadSignatureForm(signWidth, signHeight);
+        loadSignatureForm.setModal(true);
+        this->hide();
+        loadSignatureForm.exec();
+        this->show();
+    }
 }
 
 
 void MainWindow::on_loadSendDocButton_clicked()
 {
-    LoadSendDocForm loadSendDocForm(userId_);
+    LoadSendDocForm loadSendDocForm;
     loadSendDocForm.setModal(true);
-    hide();
+    this->hide();
     loadSendDocForm.exec();
-    show();
+    this->show();
+}
+
+
+void MainWindow::on_putSignatureButton_clicked()
+{
+    PutSignatureForm putSignatureForm;
+    putSignatureForm.setModal(true);
+    this->hide();
+    putSignatureForm.exec();
+    this->show();
+}
+
+
+void MainWindow::on_settingsButton_clicked()
+{
+    SettingsForm settingsForm;
+    settingsForm.setModal(true);
+    this->hide();
+    settingsForm.exec();
+    this->show();
+}
+
+
+void MainWindow::on_logoutButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->loginPage);
+    DBManager::userId = -1;
+}
+
+
+void MainWindow::on_signupTypeAccComboBox_currentTextChanged(const QString &arg1)
+{
+    if ("Підписант" == arg1) {
+        ui->signupCodeHorizontalSpacer->changeSize(0, 20);
+        ui->signupManageCodeEdit->hide();
+        ui->signupManageCodeLabel->hide();
+    }
+    else if ("Менеджер" == arg1) {
+        ui->signupCodeHorizontalSpacer->changeSize(20, 20);
+        ui->signupManageCodeEdit->show();
+        ui->signupManageCodeLabel->show();
+    }
+}
+
+
+void MainWindow::on_loginExitButton_clicked()
+{
+    this->close();
+}
+
+
+void MainWindow::on_menuExitButton_clicked()
+{
+    this->close();
 }
 

@@ -3,66 +3,36 @@
 #include "dbmanager.h"
 #include "loaddocform.h"
 #include "docoperations.h"
+#include "messagehandler.h"
 
 #include <QSqlRecord>
 #include <QSqlField>
-#include <QMessageBox>
-#include <QSqlQuery>
 
-LoadSendDocForm::LoadSendDocForm(int userId, QWidget *parent) :
+LoadSendDocForm::LoadSendDocForm(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LoadSendDocForm),
-    userId_(userId),
-    db(DBManager::instance().getDatabase())
+    documentsModel_(DBManager::instance().getDocumentsModel()),
+    usersModel_(DBManager::instance().getUsersModel()),
+    docUserModel_(DBManager::instance().getDocUserModel())
 {
     ui->setupUi(this);
     this->resize(1024, 576);
-    this->setFocus();
-    documentsModel = new QSqlRelationalTableModel(this, db);
-    documentsModel->setTable("documents");
-    documentsModel->setRelation(documentsModel->fieldIndex("author_id"),
-                                QSqlRelation("users", "id", "first_name, last_name"));
-    documentsModel->select();
-    documentsModel->setHeaderData(0, Qt::Horizontal, "ID", Qt::DisplayRole);
-    documentsModel->setHeaderData(1, Qt::Horizontal, "Назва", Qt::DisplayRole);
-    documentsModel->setHeaderData(2, Qt::Horizontal, "Ім'я автора", Qt::DisplayRole);
-    documentsModel->setHeaderData(3, Qt::Horizontal, "Прізвище автора", Qt::DisplayRole);
-    documentsModel->setHeaderData(4, Qt::Horizontal, "Дата завантаження", Qt::DisplayRole);
-    documentsModel->setHeaderData(6, Qt::Horizontal, "Примітка до документа", Qt::DisplayRole);
 
-    ui->documentsTableView->setModel(documentsModel);
-    ui->documentsTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->documentsTableView->setModel(documentsModel_);
     ui->documentsTableView->setColumnHidden(5, true);
+    ui->documentsTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
-    usersModel = new QSqlRelationalTableModel(this, db);
-    usersModel->setTable("users");
-    usersModel->select();
-    usersModel->setHeaderData(1, Qt::Horizontal, "Ім'я", Qt::DisplayRole);
-    usersModel->setHeaderData(2, Qt::Horizontal, "Прізвище", Qt::DisplayRole);
-    usersModel->setHeaderData(4, Qt::Horizontal, "Посада", Qt::DisplayRole);
-    usersModel->setHeaderData(5, Qt::Horizontal, "Тип акаунта", Qt::DisplayRole);
-
-    ui->usersTableView->setModel(usersModel);
+    ui->usersTableView->setModel(usersModel_);
     ui->usersTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->usersTableView->setColumnHidden(0, true);
     ui->usersTableView->setColumnHidden(3, true);
     ui->usersTableView->setColumnHidden(6, true);
 
-    docUserModel = new QSqlRelationalTableModel(this, db);
-    docUserModel->setTable("document_user");
-    docUserModel->setRelation(docUserModel->fieldIndex("user_id"),
-                                QSqlRelation("users", "id", "first_name, last_name"));
-    docUserModel->select();
-    docUserModel->setHeaderData(1, Qt::Horizontal, "Ім'я", Qt::DisplayRole);
-    docUserModel->setHeaderData(2, Qt::Horizontal, "Прізвище ", Qt::DisplayRole);
-    docUserModel->setHeaderData(3, Qt::Horizontal, "Підпис", Qt::DisplayRole);
-    docUserModel->setHeaderData(4, Qt::Horizontal, "Коментар підписанта", Qt::DisplayRole);
-    docUserModel->setFilter("document_id = 0");
-
-    ui->docUserTableView->setModel(docUserModel);
+    ui->docUserTableView->setModel(docUserModel_);
     ui->docUserTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->docUserTableView->setColumnHidden(0, true);
 
+    this->removeTablesSelection();
 }
 
 LoadSendDocForm::~LoadSendDocForm()
@@ -70,190 +40,165 @@ LoadSendDocForm::~LoadSendDocForm()
     delete ui;
 }
 
+void LoadSendDocForm::removeTablesSelection()
+{
+    documentsModel_->setFilter("");
+    ui->documentsTableView->setCurrentIndex({});
+    ui->usersTableView->setCurrentIndex({});
+    usersModel_->setFilter("");
+    ui->docUserTableView->setCurrentIndex({});
+    docUserModel_->setFilter("document_id = 0");
+}
+
 void LoadSendDocForm::on_loadDocButton_clicked()
 {
-    LoadDocForm loadDocForm(userId_);
+    LoadDocForm loadDocForm;
     loadDocForm.setModal(true);
     loadDocForm.exec();
-    documentsModel->select();
+    documentsModel_->select();
 }
 
 
 void LoadSendDocForm::on_editDocButton_clicked()
 {
-    int currRow = DocOperations::getRowIndex(this, ui->documentsTableView, "Документ");
-    if (currRow < 0) {
+    int currDocRow = ui->documentsTableView->currentIndex().row();
+    if (currDocRow < 0) {
+        MessageHandler::showInvalidIndexWarning(this, "Документ");
         return;
     }
 
-    int docId = documentsModel->record(currRow).field("id").value().toInt();
-    QString docName = documentsModel->record(currRow).field("document_name").value().toString();
-    QString docNote = documentsModel->record(currRow).field("note").value().toString();
+    int docId = documentsModel_->record(currDocRow).field("id").value().toInt();
+    QString docName = documentsModel_->record(currDocRow).field("document_name").value().toString();
+    QString docNote = documentsModel_->record(currDocRow).field("note").value().toString();
 
-    LoadDocForm loadDocForm(userId_, docId, docName, docNote);
+    LoadDocForm loadDocForm(docId, docName, docNote);
     loadDocForm.setModal(true);
     loadDocForm.exec();
-    documentsModel->select();
+    documentsModel_->select();
 }
 
 
 void LoadSendDocForm::on_exitButton_clicked()
 {
-    close();
+    this->close();
 }
 
 
 void LoadSendDocForm::on_openDocButton_clicked()
 {
-    int currRow = DocOperations::getRowIndex(this, ui->documentsTableView, "Документ");
-    if (currRow < 0) {
+    int currDocRow = ui->documentsTableView->currentIndex().row();
+    if (currDocRow < 0) {
+        MessageHandler::showInvalidIndexWarning(this, "Документ");
         return;
     }
-    DocOperations::open(this, documentsModel, currRow);
+    QByteArray content = documentsModel_->record(currDocRow).field("content").value().toByteArray();
+    DocOperations::open(this, content);
 }
 
 
 void LoadSendDocForm::on_saveAsDocButton_clicked()
 {
-    int currRow = DocOperations::getRowIndex(this, ui->documentsTableView, "Документ");
-    if (currRow < 0) {
+    int currDocRow = ui->documentsTableView->currentIndex().row();
+    if (currDocRow < 0) {
+        MessageHandler::showInvalidIndexWarning(this, "Документ");
         return;
     }
-    DocOperations::saveAs(this, documentsModel, currRow);
+
+    QString docName = documentsModel_->record(currDocRow).field("document_name").value().toString();
+    QByteArray content = documentsModel_->record(currDocRow).field("content").value().toByteArray();
+    DocOperations::saveAs(this, docName, content);
 }
 
 
 void LoadSendDocForm::on_addUserToolButton_clicked()
 {
-    int currDocRow = DocOperations::getRowIndex(this, ui->documentsTableView, "Документ");
-    int currUserRow = DocOperations::getRowIndex(this, ui->usersTableView, "Підписанта");
-    if (currDocRow < 0 || currUserRow < 0) {
+    int currDocRow = ui->documentsTableView->currentIndex().row();
+    if (currDocRow < 0) {
+        MessageHandler::showInvalidIndexWarning(this, "Документ");
         return;
     }
 
-    int documentId = documentsModel->record(currDocRow).field("id").value().toInt();
-    int userId = usersModel->record(currUserRow).field("id").value().toInt();
-
-    QSqlQuery query;
-    query.prepare("INSERT INTO document_user (document_id, user_id, check_signature) "
-                  "VALUES (:document_id, :user_id, :check_signature)");
-    query.bindValue(":document_id", documentId);
-    query.bindValue(":user_id", userId);
-    query.bindValue(":check_signature", false);
-
-    if (!query.exec()) {
-        QMessageBox::critical(this, "Помилка додавання підписанта",
-                                  "Не вдалося додати підписанта у базу даних. "
-                                  "Перевірте налаштування підключення або спробуйте ще раз!");
+    int currUserRow = ui->usersTableView->currentIndex().row();
+    if (currUserRow < 0) {
+        MessageHandler::showInvalidIndexWarning(this, "Підписанта");
         return;
     }
-    docUserModel->select();
 
-    QString newFilter = usersModel->filter();
-    if (newFilter.isEmpty()) {
-        newFilter = QString("id NOT IN (%1)").arg(userId);
+    int documentId = documentsModel_->record(currDocRow).field("id").value().toInt();
+    int userId = usersModel_->record(currUserRow).field("id").value().toInt();
+
+    if (DBManager::insertDocUser(documentId, userId)) {
+        docUserModel_->select();
+
+        QString newFilter = usersModel_->filter();
+        if (newFilter.isEmpty()) {
+            newFilter = QString("id NOT IN (%1)").arg(userId);
+        }
+        else {
+            newFilter.replace(")", QString(", %1)").arg(userId));
+        }
+        usersModel_->setFilter(newFilter);
     }
-    else {
-        newFilter.replace(")", QString(", %1)").arg(userId));
-    }
-    usersModel->setFilter(newFilter);
 }
 
 
 void LoadSendDocForm::on_documentsTableView_clicked(const QModelIndex &index)
 {
-    int idToShow = documentsModel->record(index.row()).field("id").value().toInt();
-    QString docUserFilter = QString("document_id = %1").arg(idToShow);
-    docUserModel->setFilter(docUserFilter);
+    int documentId = documentsModel_->record(index.row()).field("id").value().toInt();
+    docUserModel_->setFilter(QString("document_id = %1").arg(documentId));
 
-    QSqlQuery query;
-    query.prepare("SELECT user_id FROM document_user WHERE document_id = :document_id");
-    query.bindValue(":document_id", idToShow);
-
-    if (!query.exec()) {
-        QMessageBox::critical(this, "Помилка запиту до бази даних",
-                                  "Не вдалося звернутися до бази даних. "
-                                  "Перевірте налаштування підключення або спробуйте ще раз!");
-        return;
-    }
-
-    QStringList userIds;
-
-    while (query.next()) {
-        userIds.append(query.value("user_id").toString());
-    }
-
+    QStringList userIds = DBManager::selectUserIdsFromDocUser(documentId);
     if (userIds.isEmpty()) {
-        usersModel->setFilter("");
+        usersModel_->setFilter("");
     }
     else {
-        QString usersFilter = QString("id NOT IN (%1)").arg(userIds.join(", "));
-        usersModel->setFilter(usersFilter);
+        QString userFilter = QString("id NOT IN (%1)").arg(userIds.join(", "));
+        usersModel_->setFilter(userFilter);
     }
 }
 
 
 void LoadSendDocForm::on_removeSelectionButton_clicked()
 {
-    ui->documentsTableView->setCurrentIndex({});
-    ui->usersTableView->setCurrentIndex({});
-    usersModel->setFilter("");
-    ui->docUserTableView->setCurrentIndex({});
-    docUserModel->setFilter("document_id = 0");
+    this->removeTablesSelection();
 }
 
 
 void LoadSendDocForm::on_removeUserToolButton_clicked()
 {
-    int currDocRow = DocOperations::getRowIndex(this, ui->documentsTableView, "Документ");
-    int currUserRow = DocOperations::getRowIndex(this, ui->docUserTableView, "Підписанта");
-    if (currDocRow < 0 || currUserRow < 0) {
+    int currDocRow = ui->documentsTableView->currentIndex().row();
+    if (currDocRow < 0) {
+        MessageHandler::showInvalidIndexWarning(this, "Документ");
         return;
     }
 
-    int documentId = documentsModel->record(currDocRow).field("id").value().toInt();
-    QString userFName = docUserModel->record(currUserRow).field("first_name").value().toString();
-    QString userLName = docUserModel->record(currUserRow).field("last_name").value().toString();
-
-    QSqlQuery query;
-    query.prepare("SELECT id FROM users WHERE first_name = :first_name AND last_name = :last_name");
-    query.bindValue(":first_name", userFName);
-    query.bindValue(":last_name", userLName);
-
-    if (!query.exec()) {
-        QMessageBox::critical(this, "Помилка запиту до бази даних",
-                                  "Не вдалося звернутися до бази даних. "
-                                  "Перевірте налаштування підключення або спробуйте ще раз!");
+    int currDocUserRow = ui->docUserTableView->currentIndex().row();
+    if (currDocUserRow < 0) {
+        MessageHandler::showInvalidIndexWarning(this, "Підписанта");
         return;
     }
 
-    query.next();
-    int userId = query.value("id").toInt();
-
-    query.clear();
-    query.prepare("DELETE FROM document_user WHERE document_id = :document_id AND user_id = :user_id");
-    query.bindValue(":document_id", documentId);
-    query.bindValue(":user_id", userId);
-
-    if (!query.exec()) {
-        QMessageBox::critical(this, "Помилка запиту до бази даних",
-                                  "Не вдалося звернутися до бази даних. "
-                                  "Перевірте налаштування підключення або спробуйте ще раз!");
+    QString firstName = docUserModel_->record(currDocUserRow).field("first_name").value().toString();
+    QString lastName = docUserModel_->record(currDocUserRow).field("last_name").value().toString();
+    int userId = DBManager::selectIdFromUsers(firstName, lastName);
+    if (userId <= 0) {
         return;
     }
 
-    docUserModel->select();
+    int documentId = documentsModel_->record(currDocRow).field("id").value().toInt();
+    if (DBManager::deleteDocUser(documentId, userId)) {
+        docUserModel_->select();
 
-    QString newFilter = usersModel->filter();
-    QString userIdStr = QString::number(userId);
-    if (newFilter.contains("(" + userIdStr + ")")) {
-        newFilter = "";
+        QString newFilter = usersModel_->filter();
+        QString userIdStr = QString::number(userId);
+        if (newFilter.contains('(' + userIdStr + ')')) {
+            newFilter = "";
+        }
+        else {
+            newFilter = newFilter.remove(userIdStr + ", ");
+            newFilter = newFilter.remove(", " + userIdStr);
+        }
+        usersModel_->setFilter(newFilter);
     }
-    else {
-        newFilter = newFilter.remove(userIdStr + ", ");
-        newFilter = newFilter.remove(", " + userIdStr);
-    }
-    usersModel->setFilter(newFilter);
-
 }
 

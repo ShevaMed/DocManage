@@ -1,28 +1,28 @@
 #include "loaddocform.h"
 #include "ui_loaddocform.h"
+#include "dbmanager.h"
+#include "messagehandler.h"
 
 #include <QFileDialog>
-#include <QSqlQuery>
-#include <QMessageBox>
 
-LoadDocForm::LoadDocForm(int userId, int documentId, QWidget *parent) :
+LoadDocForm::LoadDocForm(int documentId, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LoadDocForm),
-    userId_(userId),
     documentId_(documentId)
 {
     ui->setupUi(this);
+    this->resize(450, 400);
 }
 
-LoadDocForm::LoadDocForm(int userId, QWidget *parent) :
-    LoadDocForm(userId, 0, parent)
+LoadDocForm::LoadDocForm(QWidget *parent) :
+    LoadDocForm(-1, parent)
 {
     this->setWindowTitle("Завантаження документу");
 }
 
-LoadDocForm::LoadDocForm(int userId, int documentId, QString documentName,
+LoadDocForm::LoadDocForm(int documentId, QString documentName,
                          QString documentNote, QWidget *parent) :
-    LoadDocForm(userId, documentId, parent)
+    LoadDocForm(documentId, parent)
 {
     this->setWindowTitle("Редагування документу №" + QString::number(documentId));
     ui->nameEdit->setText(documentName);
@@ -36,7 +36,7 @@ LoadDocForm::~LoadDocForm()
 
 void LoadDocForm::on_exitButton_clicked()
 {
-    close();
+    this->close();
 }
 
 
@@ -44,9 +44,7 @@ void LoadDocForm::on_setNameOfPathCheckBox_stateChanged(int arg1)
 {
     if (arg1 > 0) {
         if (path_.isEmpty()) {
-            QMessageBox::warning(this, "Файл ще не завантажений",
-                                      "Не вдалося застосувати назву файлу. "
-                                      "Ви ще не завантажили файл!");
+            MessageHandler::showEmptyFileWarning(this);
             ui->setNameOfPathCheckBox->setChecked(0);
             return;
         }
@@ -58,15 +56,8 @@ void LoadDocForm::on_setNameOfPathCheckBox_stateChanged(int arg1)
 
 void LoadDocForm::on_loadButton_clicked()
 {
-    if (documentId_ > 0) {
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "Підтвердити дію",
-                                      "Ви вже завантажували файл для цього документа. "
-                                      "Ви впевнені, що хочете перезаписати файл?",
-                                      QMessageBox::Yes | QMessageBox::No);
-        if (reply == QMessageBox::No) {
-            return;
-        }
+    if (documentId_ >= 0 && !MessageHandler::replyRewriteDocument(this)) {
+        return;
     }
     path_ = QFileDialog::getOpenFileName(this, "Обрати документ",
                                                 "C:/Users/Public/Documents/",
@@ -78,73 +69,36 @@ void LoadDocForm::on_loadButton_clicked()
 void LoadDocForm::on_saveButton_clicked()
 {
     if (ui->nameEdit->text().isEmpty()) {
-        QMessageBox::warning(this, "Не вказана назва документу",
-                                  "Не вдалося зберегти дані у базу даних. "
-                                  "Ви ще не вказали назву документу!");
+        MessageHandler::showEmptyEditWarning(this, "Назву документа");
         return;
     }
 
-    if (path_.isNull() && documentId_ <= 0) {
-        QMessageBox::warning(this, "Файл ще не завантажений",
-                                          "Не вдалося зберегти дані у базу даних. "
-                                          "Ви ще не завантажили файл!");
+    if (path_.isNull() && documentId_ < 0) {
+        MessageHandler::showEmptyFileWarning(this);
         return;
     }
 
-    QSqlQuery query;
-
-    if (path_.isEmpty()) {
-        query.prepare("UPDATE documents SET document_name = :document_name, note = :note "
-                      "WHERE id = :id");
-        query.bindValue(":document_name", ui->nameEdit->text());
-        query.bindValue(":note", ui->noteTextEdit->toPlainText());
-        query.bindValue(":id", documentId_);
-    }
-    else {
+    QByteArray content;
+    if (!path_.isEmpty()) {
         QFile document(path_);
         if (!document.open(QIODevice::ReadOnly)) {
-            QMessageBox::warning(this, "Помилка відкриття", "Не вдалося відкрити файл.");
+            MessageHandler::showOpenFileWarning(this);
             return;
         }
-        QByteArray content = document.readAll();
+        content = document.readAll();
         document.close();
-
-        if (documentId_ > 0) {
-            query.prepare("UPDATE documents SET document_name = :document_name, "
-                          "note = :note, content = :content "
-                          "WHERE id = :id");
-            query.bindValue(":document_name", ui->nameEdit->text());
-            query.bindValue(":note", ui->noteTextEdit->toPlainText());
-            query.bindValue(":content", content);
-            query.bindValue(":id", documentId_);
-        }
-        else {
-            query.prepare("INSERT INTO documents (document_name, author_id, "
-                          "download_date, content, note) "
-                          "VALUES (:document_name, :author_id, :download_date, :content, :note)");
-            query.bindValue(":document_name", ui->nameEdit->text());
-            query.bindValue(":author_id", userId_);
-            query.bindValue(":download_date", QDate::currentDate());
-            query.bindValue(":content", content);
-            query.bindValue(":note", ui->noteTextEdit->toPlainText());
-        }
     }
 
-    if (!query.exec()) {
-        QMessageBox::critical(this, "Помилка збереження документу",
-                                  "Не вдалося зберегти документ у базу даних. "
-                                  "Перевірте налаштування підключення!");
+    if (documentId_ >= 0 && DBManager::updateDocuments(documentId_, ui->nameEdit->text(),
+                                                       ui->noteTextEdit->toPlainText(), content)) {
+        MessageHandler::showSuccessInfo(this, "Документ успішно оновлений у базі даних!");
         return;
     }
 
-    QString successMessage;
-
-    if (documentId_ > 0) {
-        successMessage = "Документ успішно оновлений у базі даних!";
+    if (documentId_ < 0 && DBManager::insertDocuments(ui->nameEdit->text(),
+                                                      DBManager::userId, content,
+                                                      ui->noteTextEdit->toPlainText())) {
+        MessageHandler::showSuccessInfo(this,"Документ успішно завантажено у базу даних!");
     }
-    else {
-        successMessage = "Документ успішно завантажено у базу даних!";
-    }
-    QMessageBox::information(this, "Успіх", successMessage);
 }
 

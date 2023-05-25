@@ -15,7 +15,10 @@ SOURCES += \
     loadsenddocform.cpp \
     loadsignatureform.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    messagehandler.cpp \
+    putsignatureform.cpp \
+    settingsform.cpp
 
 HEADERS += \
     dbmanager.h \
@@ -23,13 +26,18 @@ HEADERS += \
     loaddocform.h \
     loadsenddocform.h \
     loadsignatureform.h \
-    mainwindow.h
+    mainwindow.h \
+    messagehandler.h \
+    putsignatureform.h \
+    settingsform.h
 
 FORMS += \
     loaddocform.ui \
     loadsenddocform.ui \
     loadsignatureform.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    putsignatureform.ui \
+    settingsform.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

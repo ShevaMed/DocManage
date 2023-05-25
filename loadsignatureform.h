@@ -12,7 +12,7 @@ class LoadSignatureForm : public QDialog
     Q_OBJECT
 
 public:
-    explicit LoadSignatureForm(int userId, int signWidth, int signHeight,
+    explicit LoadSignatureForm(int signWidth, int signHeight,
                                QWidget *parent = nullptr);
     ~LoadSignatureForm();
 
@@ -30,9 +30,10 @@ private slots:
 
     void on_viewButton_clicked();
 
+    void on_deleteButton_clicked();
+
 private:
     Ui::LoadSignatureForm *ui;
-    const int userId_;
     const int signWidth_, signHeight_;
     const int baseWindowWidth_, baseWindowHeight_;
     const int windowMinWidth_;

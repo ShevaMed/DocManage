@@ -13,6 +13,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
@@ -30,24 +31,25 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QGridLayout *gridLayout_2;
+    QVBoxLayout *verticalLayout_4;
     QStackedWidget *stackedWidget;
     QWidget *loginPage;
     QVBoxLayout *verticalLayout_2;
     QTabWidget *tabWidget;
     QWidget *loginTab;
     QGridLayout *gridLayout_3;
-    QLineEdit *loginLnameEdit;
+    QSpacerItem *horizontalSpacer_2;
     QSpacerItem *verticalSpacer_3;
-    QLabel *label;
-    QPushButton *loginButton;
+    QLineEdit *loginLnameEdit;
     QLineEdit *loginPasswordEdit;
-    QLineEdit *loginFnameEdit;
-    QLabel *loginImageLabel;
     QLabel *label_2;
     QLabel *label_12;
+    QLabel *label;
+    QLineEdit *loginFnameEdit;
     QLabel *label_3;
-    QSpacerItem *horizontalSpacer_2;
+    QPushButton *loginButton;
+    QLabel *loginImageLabel;
+    QPushButton *loginExitButton;
     QWidget *signupTab;
     QGridLayout *gridLayout_4;
     QLabel *label_10;
@@ -75,12 +77,18 @@ public:
     QLabel *label_13;
     QVBoxLayout *verticalLayout;
     QLabel *menuUserNameLabel;
+    QLabel *menuJobTitleLabel;
     QLabel *menuTypeAccLabel;
+    QSpacerItem *verticalSpacer_4;
     QGridLayout *gridLayout_5;
     QPushButton *putSignatureButton;
     QPushButton *settingsButton;
     QPushButton *loadSignatureButton;
     QPushButton *loadSendDocButton;
+    QSpacerItem *verticalSpacer_2;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *logoutButton;
+    QPushButton *menuExitButton;
     QMenuBar *menubar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -90,8 +98,8 @@ public:
         MainWindow->resize(700, 500);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        gridLayout_2 = new QGridLayout(centralwidget);
-        gridLayout_2->setObjectName("gridLayout_2");
+        verticalLayout_4 = new QVBoxLayout(centralwidget);
+        verticalLayout_4->setObjectName("verticalLayout_4");
         stackedWidget = new QStackedWidget(centralwidget);
         stackedWidget->setObjectName("stackedWidget");
         loginPage = new QWidget();
@@ -108,50 +116,27 @@ public:
         loginTab->setObjectName("loginTab");
         gridLayout_3 = new QGridLayout(loginTab);
         gridLayout_3->setObjectName("gridLayout_3");
-        loginLnameEdit = new QLineEdit(loginTab);
-        loginLnameEdit->setObjectName("loginLnameEdit");
+        horizontalSpacer_2 = new QSpacerItem(60, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
-        gridLayout_3->addWidget(loginLnameEdit, 4, 0, 1, 1);
+        gridLayout_3->addItem(horizontalSpacer_2, 1, 1, 8, 1);
 
-        verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Fixed);
+        verticalSpacer_3 = new QSpacerItem(20, 30, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
         gridLayout_3->addItem(verticalSpacer_3, 7, 0, 1, 1);
 
-        label = new QLabel(loginTab);
-        label->setObjectName("label");
-        label->setAlignment(Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft);
+        loginLnameEdit = new QLineEdit(loginTab);
+        loginLnameEdit->setObjectName("loginLnameEdit");
+        loginLnameEdit->setCursorMoveStyle(Qt::LogicalMoveStyle);
 
-        gridLayout_3->addWidget(label, 1, 0, 1, 1);
-
-        loginButton = new QPushButton(loginTab);
-        loginButton->setObjectName("loginButton");
-        QFont font1;
-        font1.setPointSize(16);
-        loginButton->setFont(font1);
-
-        gridLayout_3->addWidget(loginButton, 8, 0, 1, 1);
+        gridLayout_3->addWidget(loginLnameEdit, 4, 0, 1, 1);
 
         loginPasswordEdit = new QLineEdit(loginTab);
         loginPasswordEdit->setObjectName("loginPasswordEdit");
         loginPasswordEdit->setMaxLength(30);
         loginPasswordEdit->setEchoMode(QLineEdit::Password);
+        loginPasswordEdit->setCursorMoveStyle(Qt::LogicalMoveStyle);
 
         gridLayout_3->addWidget(loginPasswordEdit, 6, 0, 1, 1);
-
-        loginFnameEdit = new QLineEdit(loginTab);
-        loginFnameEdit->setObjectName("loginFnameEdit");
-
-        gridLayout_3->addWidget(loginFnameEdit, 2, 0, 1, 1);
-
-        loginImageLabel = new QLabel(loginTab);
-        loginImageLabel->setObjectName("loginImageLabel");
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(loginImageLabel->sizePolicy().hasHeightForWidth());
-        loginImageLabel->setSizePolicy(sizePolicy);
-
-        gridLayout_3->addWidget(loginImageLabel, 1, 2, 8, 1);
 
         label_2 = new QLabel(loginTab);
         label_2->setObjectName("label_2");
@@ -161,10 +146,24 @@ public:
 
         label_12 = new QLabel(loginTab);
         label_12->setObjectName("label_12");
+        QFont font1;
+        font1.setPointSize(16);
         label_12->setFont(font1);
         label_12->setAlignment(Qt::AlignCenter);
 
         gridLayout_3->addWidget(label_12, 0, 0, 1, 3);
+
+        label = new QLabel(loginTab);
+        label->setObjectName("label");
+        label->setAlignment(Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft);
+
+        gridLayout_3->addWidget(label, 1, 0, 1, 1);
+
+        loginFnameEdit = new QLineEdit(loginTab);
+        loginFnameEdit->setObjectName("loginFnameEdit");
+        loginFnameEdit->setCursorMoveStyle(Qt::LogicalMoveStyle);
+
+        gridLayout_3->addWidget(loginFnameEdit, 2, 0, 1, 1);
 
         label_3 = new QLabel(loginTab);
         label_3->setObjectName("label_3");
@@ -172,9 +171,29 @@ public:
 
         gridLayout_3->addWidget(label_3, 5, 0, 1, 1);
 
-        horizontalSpacer_2 = new QSpacerItem(62, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+        loginButton = new QPushButton(loginTab);
+        loginButton->setObjectName("loginButton");
+        QFont font2;
+        font2.setPointSize(14);
+        loginButton->setFont(font2);
 
-        gridLayout_3->addItem(horizontalSpacer_2, 1, 1, 8, 1);
+        gridLayout_3->addWidget(loginButton, 8, 0, 1, 1);
+
+        loginImageLabel = new QLabel(loginTab);
+        loginImageLabel->setObjectName("loginImageLabel");
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(loginImageLabel->sizePolicy().hasHeightForWidth());
+        loginImageLabel->setSizePolicy(sizePolicy);
+
+        gridLayout_3->addWidget(loginImageLabel, 2, 2, 5, 1);
+
+        loginExitButton = new QPushButton(loginTab);
+        loginExitButton->setObjectName("loginExitButton");
+        loginExitButton->setFont(font2);
+
+        gridLayout_3->addWidget(loginExitButton, 8, 2, 1, 1);
 
         tabWidget->addTab(loginTab, QString());
         signupTab = new QWidget();
@@ -194,7 +213,7 @@ public:
 
         gridLayout_4->addWidget(label_4, 1, 0, 1, 1);
 
-        horizontalSpacer = new QSpacerItem(59, 243, QSizePolicy::Fixed, QSizePolicy::Minimum);
+        horizontalSpacer = new QSpacerItem(60, 243, QSizePolicy::Fixed, QSizePolicy::Minimum);
 
         gridLayout_4->addItem(horizontalSpacer, 1, 1, 6, 1);
 
@@ -311,7 +330,7 @@ public:
         sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(signupButton->sizePolicy().hasHeightForWidth());
         signupButton->setSizePolicy(sizePolicy2);
-        signupButton->setFont(font1);
+        signupButton->setFont(font2);
 
         gridLayout_4->addWidget(signupButton, 8, 0, 1, 3);
 
@@ -323,7 +342,7 @@ public:
         menuPage = new QWidget();
         menuPage->setObjectName("menuPage");
         verticalLayout_3 = new QVBoxLayout(menuPage);
-        verticalLayout_3->setSpacing(16);
+        verticalLayout_3->setSpacing(10);
         verticalLayout_3->setObjectName("verticalLayout_3");
         label_13 = new QLabel(menuPage);
         label_13->setObjectName("label_13");
@@ -344,12 +363,16 @@ public:
         sizePolicy3.setVerticalStretch(0);
         sizePolicy3.setHeightForWidth(menuUserNameLabel->sizePolicy().hasHeightForWidth());
         menuUserNameLabel->setSizePolicy(sizePolicy3);
-        QFont font2;
-        font2.setPointSize(14);
         menuUserNameLabel->setFont(font2);
         menuUserNameLabel->setTextFormat(Qt::AutoText);
 
         verticalLayout->addWidget(menuUserNameLabel);
+
+        menuJobTitleLabel = new QLabel(menuPage);
+        menuJobTitleLabel->setObjectName("menuJobTitleLabel");
+        menuJobTitleLabel->setFont(font2);
+
+        verticalLayout->addWidget(menuJobTitleLabel);
 
         menuTypeAccLabel = new QLabel(menuPage);
         menuTypeAccLabel->setObjectName("menuTypeAccLabel");
@@ -359,6 +382,10 @@ public:
 
 
         verticalLayout_3->addLayout(verticalLayout);
+
+        verticalSpacer_4 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Fixed);
+
+        verticalLayout_3->addItem(verticalSpacer_4);
 
         gridLayout_5 = new QGridLayout();
         gridLayout_5->setSpacing(10);
@@ -370,7 +397,7 @@ public:
         sizePolicy4.setVerticalStretch(0);
         sizePolicy4.setHeightForWidth(putSignatureButton->sizePolicy().hasHeightForWidth());
         putSignatureButton->setSizePolicy(sizePolicy4);
-        putSignatureButton->setFont(font);
+        putSignatureButton->setFont(font2);
 
         gridLayout_5->addWidget(putSignatureButton, 0, 0, 1, 1);
 
@@ -378,7 +405,7 @@ public:
         settingsButton->setObjectName("settingsButton");
         sizePolicy4.setHeightForWidth(settingsButton->sizePolicy().hasHeightForWidth());
         settingsButton->setSizePolicy(sizePolicy4);
-        settingsButton->setFont(font);
+        settingsButton->setFont(font2);
 
         gridLayout_5->addWidget(settingsButton, 1, 1, 1, 1);
 
@@ -386,7 +413,7 @@ public:
         loadSignatureButton->setObjectName("loadSignatureButton");
         sizePolicy4.setHeightForWidth(loadSignatureButton->sizePolicy().hasHeightForWidth());
         loadSignatureButton->setSizePolicy(sizePolicy4);
-        loadSignatureButton->setFont(font);
+        loadSignatureButton->setFont(font2);
 
         gridLayout_5->addWidget(loadSignatureButton, 1, 0, 1, 1);
 
@@ -394,16 +421,45 @@ public:
         loadSendDocButton->setObjectName("loadSendDocButton");
         sizePolicy4.setHeightForWidth(loadSendDocButton->sizePolicy().hasHeightForWidth());
         loadSendDocButton->setSizePolicy(sizePolicy4);
-        loadSendDocButton->setFont(font);
+        loadSendDocButton->setFont(font2);
 
         gridLayout_5->addWidget(loadSendDocButton, 0, 1, 1, 1);
 
 
         verticalLayout_3->addLayout(gridLayout_5);
 
+        verticalSpacer_2 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Fixed);
+
+        verticalLayout_3->addItem(verticalSpacer_2);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(10);
+        horizontalLayout->setObjectName("horizontalLayout");
+        logoutButton = new QPushButton(menuPage);
+        logoutButton->setObjectName("logoutButton");
+        QSizePolicy sizePolicy5(QSizePolicy::Minimum, QSizePolicy::Preferred);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(logoutButton->sizePolicy().hasHeightForWidth());
+        logoutButton->setSizePolicy(sizePolicy5);
+        logoutButton->setFont(font);
+
+        horizontalLayout->addWidget(logoutButton);
+
+        menuExitButton = new QPushButton(menuPage);
+        menuExitButton->setObjectName("menuExitButton");
+        sizePolicy5.setHeightForWidth(menuExitButton->sizePolicy().hasHeightForWidth());
+        menuExitButton->setSizePolicy(sizePolicy5);
+        menuExitButton->setFont(font);
+
+        horizontalLayout->addWidget(menuExitButton);
+
+
+        verticalLayout_3->addLayout(horizontalLayout);
+
         stackedWidget->addWidget(menuPage);
 
-        gridLayout_2->addWidget(stackedWidget, 0, 0, 1, 1);
+        verticalLayout_4->addWidget(stackedWidget);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -413,7 +469,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(1);
+        stackedWidget->setCurrentIndex(0);
         tabWidget->setCurrentIndex(0);
         signupTypeAccComboBox->setCurrentIndex(-1);
 
@@ -425,13 +481,14 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         loginLnameEdit->setInputMask(QCoreApplication::translate("MainWindow", ">AAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", nullptr));
-        label->setText(QCoreApplication::translate("MainWindow", "\320\222\320\260\321\210\320\265 \321\226\320\274'\321\217", nullptr));
-        loginButton->setText(QCoreApplication::translate("MainWindow", "\320\220\320\262\321\202\320\265\320\275\321\202\320\270\321\204\321\226\320\272\321\203\320\262\320\260\321\202\320\270\321\201\321\217 ", nullptr));
-        loginFnameEdit->setInputMask(QCoreApplication::translate("MainWindow", ">A<AAaaaaaaaaaaaaaaaaaaaaaaaaaaa", nullptr));
-        loginImageLabel->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "\320\222\320\260\321\210\320\265 \320\277\321\200\321\226\320\267\320\262\320\270\321\211\320\265", nullptr));
         label_12->setText(QCoreApplication::translate("MainWindow", "\320\220\320\262\321\202\320\265\320\275\321\202\320\270\321\204\321\226\320\272\320\260\321\206\321\226\321\217", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "\320\222\320\260\321\210\320\265 \321\226\320\274'\321\217", nullptr));
+        loginFnameEdit->setInputMask(QCoreApplication::translate("MainWindow", ">A<AAaaaaaaaaaaaaaaaaaaaaaaaaaaa", nullptr));
         label_3->setText(QCoreApplication::translate("MainWindow", "\320\237\320\260\321\200\320\276\320\273\321\214", nullptr));
+        loginButton->setText(QCoreApplication::translate("MainWindow", "\320\220\320\262\321\202\320\265\320\275\321\202\320\270\321\204\321\226\320\272\321\203\320\262\320\260\321\202\320\270\321\201\321\217 ", nullptr));
+        loginImageLabel->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
+        loginExitButton->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\262\320\265\321\200\321\210\320\270\321\202\320\270 \321\200\320\276\320\261\320\276\321\202\321\203 \320\277\321\200\320\276\320\263\321\200\320\260\320\274\320\270", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(loginTab), QCoreApplication::translate("MainWindow", "\320\220\320\262\321\202\320\265\320\275\321\202\320\270\321\204\321\226\320\272\321\203\320\262\320\260\321\202\320\270\321\201\321\217 ", nullptr));
         label_10->setText(QCoreApplication::translate("MainWindow", "\320\240\320\265\321\224\321\201\321\202\321\200\320\260\321\206\321\226\321\217", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "\320\222\320\260\321\210\320\265 \321\226\320\274'\321\217", nullptr));
@@ -452,11 +509,14 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(signupTab), QCoreApplication::translate("MainWindow", "\320\227\320\260\321\200\320\265\321\224\321\201\321\202\321\200\321\203\320\262\320\260\321\202\320\270\321\201\321\217", nullptr));
         label_13->setText(QCoreApplication::translate("MainWindow", "\320\223\320\276\320\273\320\276\320\262\320\275\320\265 \320\274\320\265\320\275\321\216", nullptr));
         menuUserNameLabel->setText(QCoreApplication::translate("MainWindow", "\320\222\321\226\321\202\320\260\321\224\320\274\320\276, ", nullptr));
+        menuJobTitleLabel->setText(QCoreApplication::translate("MainWindow", "\320\237\320\276\321\201\320\260\320\264\320\260: ", nullptr));
         menuTypeAccLabel->setText(QCoreApplication::translate("MainWindow", "\320\242\320\270\320\277 \320\260\320\272\320\260\321\203\320\275\321\202\320\260: ", nullptr));
         putSignatureButton->setText(QCoreApplication::translate("MainWindow", "\320\237\320\276\321\201\321\202\320\260\320\262\320\270\321\202\320\270 \320\277\321\226\320\264\320\277\320\270\321\201", nullptr));
         settingsButton->setText(QCoreApplication::translate("MainWindow", "\320\227\320\274\321\226\320\275\320\270\321\202\320\270 \320\277\320\260\321\200\320\260\320\274\320\265\321\202\321\200\320\270", nullptr));
         loadSignatureButton->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\262\320\260\320\275\321\202\320\260\320\266\320\270\321\202\320\270 \320\277\321\226\320\264\320\277\320\270\321\201", nullptr));
         loadSendDocButton->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\262\320\260\320\275\321\202\320\260\320\266\320\270\321\202\320\270 \321\202\320\260 \321\201\320\272\320\260\321\207\320\260\321\202\320\270 \320\264\320\276\320\272\321\203\320\274\320\265\320\275\321\202", nullptr));
+        logoutButton->setText(QCoreApplication::translate("MainWindow", "\320\222\320\270\320\271\321\202\320\270 \320\267 \320\260\320\272\320\260\321\203\320\275\321\202\320\260", nullptr));
+        menuExitButton->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\262\320\265\321\200\321\210\320\270\321\202\320\270 \321\200\320\276\320\261\320\276\321\202\321\203 \320\277\321\200\320\276\320\263\321\200\320\260\320\274\320\270", nullptr));
     } // retranslateUi
 
 };

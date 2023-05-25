@@ -1,10 +1,11 @@
 #include "mainwindow.h"
 #include "dbmanager.h"
+#include "messagehandler.h"
 
 #include <QApplication>
-#include <QMessageBox>
 #include <Windows.h>
 #include <QFile>
+#include <QSqlError>
 
 int main(int argc, char *argv[])
 {
@@ -13,33 +14,24 @@ int main(int argc, char *argv[])
     QString dbConfigFileName = "database.ini";
     QFile dbConfigFile(dbConfigFileName);
     if (!dbConfigFile.open(QFile::ReadOnly)) {
-        QMessageBox::critical(nullptr, "Помилка відкриття файлу",
-                                  "Не вдалося відкрити файл конфігурації бази "
-                                  "даних. Перевірте, що файл " + dbConfigFileName +
-                                  " розташований у папці програми.");
+        MessageHandler::showOpenFileError(nullptr, dbConfigFileName);
         return 1;
     }
     dbConfigFile.close();
 
     QSqlDatabase& db = DBManager::instance().getDatabase();
     if (!db.open()) {
-        QMessageBox::critical(nullptr, "Помилка підключення бази данных",
-                                  "Не вдалося підключитися до бази даних. "
-                                  "Перевірте налаштування підключення! " +
-                                  db.lastError().text());
+        MessageHandler::showOpenDatabaseError(nullptr, db.lastError().text());
         return 1;
     }
 
-    QString styleSheetFileName = "SyNet.qss";
+    QString styleSheetFileName = "stylesheet.qss";
     QFile styleSheetFile(styleSheetFileName);
     if (styleSheetFile.open(QFile::ReadOnly)) {
         QString styleSheet = QLatin1String(styleSheetFile.readAll());
         a.setStyleSheet(styleSheet);
     } else {
-        QMessageBox::warning(nullptr, "Помилка відкриття файлу",
-                                  "Не вдалося відкрити файл стилю. "
-                                  "Перевірте, що файл " + styleSheetFileName +
-                                  " розташований у папці програми.");
+        MessageHandler::showOpenFileError(nullptr, styleSheetFileName);
     }
 
     // Initialize the COM library

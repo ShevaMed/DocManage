@@ -24,7 +24,7 @@ QT_BEGIN_NAMESPACE
 class Ui_LoadSignatureForm
 {
 public:
-    QHBoxLayout *horizontalLayout_4;
+    QHBoxLayout *horizontalLayout_5;
     QVBoxLayout *verticalLayout;
     QLabel *label;
     QHBoxLayout *horizontalLayout_2;
@@ -37,6 +37,8 @@ public:
     QLabel *imageDocLabel;
     QSpacerItem *horizontalSpacer;
     QSpacerItem *verticalSpacer;
+    QHBoxLayout *horizontalLayout_4;
+    QPushButton *deleteButton;
     QPushButton *viewButton;
     QVBoxLayout *verticalLayout_2;
     QLabel *label_2;
@@ -51,17 +53,17 @@ public:
     {
         if (LoadSignatureForm->objectName().isEmpty())
             LoadSignatureForm->setObjectName("LoadSignatureForm");
-        LoadSignatureForm->resize(770, 390);
+        LoadSignatureForm->resize(784, 390);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(LoadSignatureForm->sizePolicy().hasHeightForWidth());
         LoadSignatureForm->setSizePolicy(sizePolicy);
-        horizontalLayout_4 = new QHBoxLayout(LoadSignatureForm);
-        horizontalLayout_4->setSpacing(28);
-        horizontalLayout_4->setObjectName("horizontalLayout_4");
+        horizontalLayout_5 = new QHBoxLayout(LoadSignatureForm);
+        horizontalLayout_5->setSpacing(30);
+        horizontalLayout_5->setObjectName("horizontalLayout_5");
         verticalLayout = new QVBoxLayout();
-        verticalLayout->setSpacing(7);
+        verticalLayout->setSpacing(5);
         verticalLayout->setObjectName("verticalLayout");
         label = new QLabel(LoadSignatureForm);
         label->setObjectName("label");
@@ -150,23 +152,37 @@ public:
 
         verticalLayout->addLayout(horizontalLayout);
 
-        verticalSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Preferred);
+        verticalSpacer = new QSpacerItem(363, 23, QSizePolicy::Minimum, QSizePolicy::Preferred);
 
         verticalLayout->addItem(verticalSpacer);
 
-        viewButton = new QPushButton(LoadSignatureForm);
-        viewButton->setObjectName("viewButton");
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setSpacing(10);
+        horizontalLayout_4->setObjectName("horizontalLayout_4");
+        deleteButton = new QPushButton(LoadSignatureForm);
+        deleteButton->setObjectName("deleteButton");
         QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Preferred);
         sizePolicy2.setHorizontalStretch(0);
         sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(deleteButton->sizePolicy().hasHeightForWidth());
+        deleteButton->setSizePolicy(sizePolicy2);
+        deleteButton->setFont(font);
+
+        horizontalLayout_4->addWidget(deleteButton);
+
+        viewButton = new QPushButton(LoadSignatureForm);
+        viewButton->setObjectName("viewButton");
         sizePolicy2.setHeightForWidth(viewButton->sizePolicy().hasHeightForWidth());
         viewButton->setSizePolicy(sizePolicy2);
         viewButton->setFont(font);
 
-        verticalLayout->addWidget(viewButton);
+        horizontalLayout_4->addWidget(viewButton);
 
 
-        horizontalLayout_4->addLayout(verticalLayout);
+        verticalLayout->addLayout(horizontalLayout_4);
+
+
+        horizontalLayout_5->addLayout(verticalLayout);
 
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setSpacing(7);
@@ -197,7 +213,7 @@ public:
         verticalLayout_2->addItem(verticalSpacer_3);
 
         horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setSpacing(7);
+        horizontalLayout_3->setSpacing(10);
         horizontalLayout_3->setObjectName("horizontalLayout_3");
         saveButton = new QPushButton(LoadSignatureForm);
         saveButton->setObjectName("saveButton");
@@ -219,7 +235,7 @@ public:
         verticalLayout_2->addLayout(horizontalLayout_3);
 
 
-        horizontalLayout_4->addLayout(verticalLayout_2);
+        horizontalLayout_5->addLayout(verticalLayout_2);
 
 
         retranslateUi(LoadSignatureForm);
@@ -236,7 +252,8 @@ public:
         label_3->setText(QCoreApplication::translate("LoadSignatureForm", "\320\237\321\200\320\270\320\261\320\273\320\270\320\267\320\275\320\270\320\271 \320\262\320\270\320\263\320\273\321\217\320\264 \320\277\321\226\320\264\320\277\320\270\321\201\321\203 \321\203 \320\264\320\276\320\272\321\203\320\274\320\265\320\275\321\202\321\226", nullptr));
         imageSignInDocLabel->setText(QString());
         imageDocLabel->setText(QString());
-        viewButton->setText(QCoreApplication::translate("LoadSignatureForm", "\320\237\320\265\321\200\320\265\320\263\320\273\321\217\320\275\321\203\321\202\320\270 \321\200\320\260\320\275\321\226\321\210\320\265 \320\267\320\260\320\262\320\260\320\275\321\202\320\260\320\266\320\265\320\275\320\270\320\271 \320\277\321\226\320\264\320\277\320\270\321\201", nullptr));
+        deleteButton->setText(QCoreApplication::translate("LoadSignatureForm", "\320\222\320\270\320\264\320\260\320\273\320\270\321\202\320\270 \320\277\321\226\320\264\320\277\320\270\321\201", nullptr));
+        viewButton->setText(QCoreApplication::translate("LoadSignatureForm", "\320\237\320\265\321\200\320\265\320\263\320\273\321\217\320\275\321\203\321\202\320\270 \320\277\321\226\320\264\320\277\320\270\321\201", nullptr));
         label_2->setText(QCoreApplication::translate("LoadSignatureForm", "<html><head/><body><p>\320\237\321\226\320\264\320\277\320\270\321\201 \320\277\320\276\320\262\320\270\320\275\320\265\320\275 \320\261\321\203\321\202\320\270 \321\207\320\276\321\200\320\275\320\276\320\263\320\276 \320\272\320\276\320\273\321\214\320\276\321\200\321\203 \320\275\320\260 \320\261\321\226\320\273\320\276\320\274\321\203 \321\204\320\276\320\275\321\226. </p><p>\320\227\320\276\320\261\321\200\320\260\320\266\320\265\320\275\320\275\321\217 \320\277\321\226\320\264\320\277\320\270\321\201\321\203 \320\277\320\276\320\262\320\270\320\275\320\275\320\276 \320\261\321\203\321\202\320\270 \320\276\320\261\321\200\321\226\320\267\320\260\320\275\320\276 \320\277\320\276 \320\263\321\200\320\260\320\275\320\270\321\206\321\217\320\274 \320\277\321\226\320\264\320\277\320\270\321\201\321\203 \321\202\320\260 \320\274\320\260\321\202\320\270 \320\277\321\200\320\276\320\277\320\276\321\200\321\206\321\226\321\227, \320\277\321\200\320\270\320\261\320\273\320\270\320\267\320\275\320\276 3 : 1 (3 \321\210"
                         "\320\270\321\200\320\270\320\275\320\270 \320\264\320\276 1 \320\262\320\270\321\201\320\276\321\202\320\270). </p><p>\320\244\320\260\320\271\320\273 \320\267\320\276\320\261\321\200\320\260\320\266\320\265\320\275\320\275\321\217 \320\277\321\226\320\264\320\277\320\270\321\201\321\203 \320\277\320\276\320\262\320\270\320\275\320\265\320\275 \320\261\321\203\321\202\320\270 \321\204\320\276\321\200\320\274\320\260\321\202\321\203 (.png) \321\202\320\260 \321\200\320\276\320\267\320\274\321\226\321\200\321\203 \320\275\320\265 \320\261\321\226\320\273\321\214\321\210\320\265 50 \320\232\320\221. </p><p>\320\222\320\270\320\264\320\260\320\273\321\217\321\202\320\270 \320\261\321\226\320\273\320\270\320\271 \321\204\320\276\320\275 \320\275\320\265\320\276\320\261\320\276\320\262'\321\217\320\267\320\272\320\276\320\262\320\276, \320\277\321\200\320\270 \320\267\320\260\320\262\320\260\320\275\321\202\320\260\320\266\320\265\320\275\320\275\321\226 \320\262\321\226\320\275 \320\262\320\270\320\264\320\260\320\273"
                         "\321\217\321\224\321\202\321\214\321\201\321\217 \320\260\320\262\321\202\320\276\320\274\320\260\321\202\320\270\321\207\320\275\320\276.</p></body></html>", nullptr));

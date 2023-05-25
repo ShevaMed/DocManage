@@ -2,7 +2,6 @@
 #define LOADSENDDOCFORM_H
 
 #include <QDialog>
-#include <QSqlDatabase>
 #include <QSqlRelationalTableModel>
 
 namespace Ui {
@@ -14,8 +13,11 @@ class LoadSendDocForm : public QDialog
     Q_OBJECT
 
 public:
-    explicit LoadSendDocForm(int userId, QWidget *parent = nullptr);
+    explicit LoadSendDocForm(QWidget *parent = nullptr);
     ~LoadSendDocForm();
+
+private:
+    void removeTablesSelection();
 
 private slots:
     void on_loadDocButton_clicked();
@@ -38,11 +40,9 @@ private slots:
 
 private:
     Ui::LoadSendDocForm *ui;
-    const int userId_;
-    QSqlDatabase db;
-    QSqlRelationalTableModel *documentsModel;
-    QSqlRelationalTableModel *usersModel;
-    QSqlRelationalTableModel *docUserModel;
+    QSqlRelationalTableModel *documentsModel_;
+    QSqlRelationalTableModel *usersModel_;
+    QSqlRelationalTableModel *docUserModel_;
 };
 
 #endif // LOADSENDDOCFORM_H

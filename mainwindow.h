@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QSqlDatabase>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,10 +24,19 @@ private slots:
 
     void on_loadSendDocButton_clicked();
 
+    void on_putSignatureButton_clicked();
+
+    void on_settingsButton_clicked();
+
+    void on_logoutButton_clicked();
+
+    void on_signupTypeAccComboBox_currentTextChanged(const QString &arg1);
+
+    void on_loginExitButton_clicked();
+
+    void on_menuExitButton_clicked();
+
 private:
     Ui::MainWindow *ui;
-    QSqlDatabase db;
-    int userId_;
-    int signWidth_, signHeight_;
 };
 #endif // MAINWINDOW_H

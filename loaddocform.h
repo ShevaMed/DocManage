@@ -12,13 +12,13 @@ class LoadDocForm : public QDialog
     Q_OBJECT
 
 public:
-    explicit LoadDocForm(int userId, QWidget *parent = nullptr);
-    explicit LoadDocForm(int userId, int documentId, QString documentName,
+    explicit LoadDocForm(QWidget *parent = nullptr);
+    explicit LoadDocForm(int documentId, QString documentName,
                          QString documentNote, QWidget *parent = nullptr);
     ~LoadDocForm();
 
 private:
-    explicit LoadDocForm(int userId, int documentId, QWidget *parent);
+    explicit LoadDocForm(int documentId, QWidget *parent);
 
 private slots:
     void on_exitButton_clicked();
@@ -31,7 +31,6 @@ private slots:
 
 private:
     Ui::LoadDocForm *ui;
-    const int userId_;
     const int documentId_;
     QString path_;
 };

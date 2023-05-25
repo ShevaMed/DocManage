@@ -84,6 +84,9 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(documentsTableView->sizePolicy().hasHeightForWidth());
         documentsTableView->setSizePolicy(sizePolicy);
+        QFont font1;
+        font1.setPointSize(11);
+        documentsTableView->setFont(font1);
         documentsTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         documentsTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
@@ -159,6 +162,7 @@ public:
         sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(usersTableView->sizePolicy().hasHeightForWidth());
         usersTableView->setSizePolicy(sizePolicy2);
+        usersTableView->setFont(font1);
         usersTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         usersTableView->setTabKeyNavigation(true);
         usersTableView->setAlternatingRowColors(false);
@@ -221,6 +225,7 @@ public:
         docUserTableView->setObjectName("docUserTableView");
         sizePolicy2.setHeightForWidth(docUserTableView->sizePolicy().hasHeightForWidth());
         docUserTableView->setSizePolicy(sizePolicy2);
+        docUserTableView->setFont(font1);
         docUserTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         docUserTableView->setAlternatingRowColors(false);
         docUserTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
