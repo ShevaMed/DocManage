@@ -7,7 +7,7 @@ To set up the project, follow these steps:
 2. Ensure you have a remote MYSQL server.
 3. On your remote MYSQL server execute file ```init_database.sql``` to create database, tables and initialize some tables.
 4. Configure the database connection parameters in the ```database.ini file```.
-5. Install the necessary technologies and libraries specified in the project's [Technologies Used](Technologies-Used).
+5. Install the necessary technologies and libraries specified in the project's [Technologies Used](#technologies-used).
 6. Build and compile the project using your preferred development environment.
 
 ## Usage
