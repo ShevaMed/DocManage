@@ -1,5 +1,5 @@
-# DocManage
-DocManage is an electronic document management system designed to facilitate document uploading, downloading, and sharing among users. It provides features such as document commenting and digital signatures. The system utilizes a MySQL database to store documents, signatures, user data, and parameters.
+# Document Manage System
+Document Manage System is an electronic document management system designed to facilitate document uploading, downloading, and sharing among users. It provides features such as document commenting and digital signatures. The system utilizes a MySQL database to store documents, signatures, user data, and parameters.
 
 ## Installation
 To set up the project, follow these steps:
@@ -21,8 +21,8 @@ Once the project is set up and running, you can perform the following actions:
 
 ## Technologies Used
 - Languaes: C++17, SQL
-- Framework: Qt 6.4.0
+- Frameworks: Qt 6.4.0
 - Database: MySQL
 - MS Word document interaction: Microsoft Word 16.0 Object Library
-- IDE: Qt Creator 8.0.2
+- IDE: Qt Creator 8.0.2, MySQL Workbench 8.0
 - Compiler: Desktop MSVC2019 64bit
