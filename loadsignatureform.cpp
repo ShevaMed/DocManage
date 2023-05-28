@@ -12,7 +12,7 @@ LoadSignatureForm::LoadSignatureForm(int signWidth, int signHeight,
     QDialog(parent),
     ui(new Ui::LoadSignatureForm),
     signWidth_(signWidth), signHeight_(signHeight),
-    baseWindowWidth_(410), baseWindowHeight_(390), windowMinWidth_(784),
+    baseWindowWidth_(410), baseWindowHeight_(390), windowMinWidth_(800),
     zoomFactorSignInDoc_(2), signLabelHeight_(80),
     signLabelWidth_(signWidth * signLabelHeight_ / signHeight),
     signInDocLabelWidth_(signWidth * zoomFactorSignInDoc_)
@@ -67,7 +67,7 @@ void LoadSignatureForm::on_loadButton_clicked()
         signPixmap_.load(path);
         QBitmap mask = signPixmap_.createMaskFromColor(Qt::white);
         signPixmap_.setMask(mask);
-        setPixmapsInLabels();
+        this->setPixmapsInLabels();
     }
 }
 
@@ -114,7 +114,7 @@ void LoadSignatureForm::on_viewButton_clicked()
         return;
     }
     signPixmap_.loadFromData(signature);
-    setPixmapsInLabels();
+    this->setPixmapsInLabels();
 }
 
 

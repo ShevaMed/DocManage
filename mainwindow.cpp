@@ -24,6 +24,21 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::resetLoginSignupTab()
+{
+    ui->loginFnameEdit->clear();
+    ui->loginLnameEdit->clear();
+    ui->loginPasswordEdit->clear();
+
+    ui->signupFnameEdit->clear();
+    ui->signupLnameEdit->clear();
+    ui->signupPasswordEdit->clear();
+    ui->signupRepPasswordEdit->clear();
+    ui->signupJobTitleEdit->clear();
+    ui->signupManageCodeEdit->clear();
+    ui->signupTypeAccComboBox->setCurrentIndex(0);
+}
+
 
 void MainWindow::on_signupButton_clicked()
 {
@@ -99,18 +114,32 @@ void MainWindow::on_loginButton_clicked()
         return;
     }
 
-    if (ui->loginPasswordEdit->text() != userInfo.at(1)) {
+    int userId = userInfo.at(0).toInt();
+    QString userPassword = userInfo.at(1);
+    QString jobTitle = userInfo.at(2);
+    QString userType = userInfo.at(3);
+
+    if (ui->loginPasswordEdit->text() != userPassword) {
         MessageHandler::showWrongPasswordWarning(this);
         return;
+    }
+
+    if ("Підписант" == userType) {
+        ui->loadSendDocButton->hide();
+        ui->settingsButton->hide();
+    }
+    else if ("Менеджер" == userType) {
+        ui->loadSendDocButton->show();
+        ui->settingsButton->show();
     }
 
     ui->stackedWidget->setCurrentWidget(ui->menuPage);
     ui->menuUserNameLabel->setText("Вітаємо, " + ui->loginFnameEdit->text() + ' ' +
                                    ui->loginLnameEdit->text() + '!');
-    ui->menuJobTitleLabel->setText("Посада: " + userInfo.at(2));
-    ui->menuTypeAccLabel->setText("Тип акаунта: " + userInfo.at(3));
+    ui->menuJobTitleLabel->setText("Посада: " + jobTitle);
+    ui->menuTypeAccLabel->setText("Тип акаунта: " + userType);
 
-    DBManager::userId = userInfo.at(0).toInt();
+    DBManager::userId = userId;
 }
 
 
@@ -160,6 +189,7 @@ void MainWindow::on_settingsButton_clicked()
 
 void MainWindow::on_logoutButton_clicked()
 {
+    this->resetLoginSignupTab();
     ui->stackedWidget->setCurrentWidget(ui->loginPage);
     DBManager::userId = -1;
 }

@@ -4,6 +4,7 @@
 #include <QTemporaryFile>
 #include <QFileDialog>
 #include <QAxObject>
+#include <QDateTime>
 
 DocOperations::DocOperations()
 {
@@ -44,33 +45,25 @@ void DocOperations::open(QDialog *form, const QByteArray& content)
     QAxObject* document = wordApp->querySubObject("Documents");
     document = document->querySubObject("Open(const QString&)", tempFile.fileName());
 
+    // Clear memory
     document->clear();
     wordApp->clear();
 }
 
-QByteArray DocOperations::putSignature(QDialog *form, QString documentName,
-                                       const QByteArray& content, const QByteArray& signature,
-                                       QString textForPutSignature, int signWidth, int signHeight)
+QByteArray DocOperations::putSignature(QDialog *form, const QByteArray& content,
+                                       const QByteArray& signature, QString textForPutSignature,
+                                       int signWidth, int signHeight)
 {
-    QString path = QFileDialog::getSaveFileName(form, "Зберегти документ для встановлення підпису",
-                                                    "C:/Users/Public/Documents/" + documentName,
-                                                    "MS Word Document (*.docx *.doc);");
-    if (path.isEmpty()) {
-        return {};
-    }
-
+    QString path = QDir::tempPath() + '/' +
+            QDateTime::currentDateTime().toString("dd.MM.yyyy_hh_mm_ss");
     QFile docFile(path);
     if (!docFile.open(QIODevice::WriteOnly)) {
          MessageHandler::showOpenFileWarning(form);
+         docFile.remove();
          return {};
     }
     docFile.write(content);
     docFile.close();
-
-    QTemporaryFile tempSignatureFile;
-    tempSignatureFile.open();
-    tempSignatureFile.write(signature);
-    tempSignatureFile.close();
 
     // Create a new Word application
     QAxObject* wordApp = new QAxObject("Word.Application");
@@ -92,11 +85,27 @@ QByteArray DocOperations::putSignature(QDialog *form, QString documentName,
     // Search for the text
     find->dynamicCall("Execute(const QString&)", textForPutSignature);
 
-    // Get left and top of selection relative to text border
-    int leftSelection = selection->dynamicCall("Information(wdHorizontalPositionRelativeToTextBoundary)").toInt();
-    int topSelection = selection->dynamicCall("Information(wdVerticalPositionRelativeToTextBoundary)").toInt();
+    // Checking that nothing was found
+    if (!find->property("Found").toBool()) {
+        MessageHandler::showIsNotNameInDocWarning(form);
+        document->dynamicCall("Close()");
+        wordApp->dynamicCall("Quit()");
+        docFile.remove();
+        return {};
+    }
 
-    // Calculate left and top to insert picture into document
+    QTemporaryFile tempSignatureFile;
+    tempSignatureFile.open();
+    tempSignatureFile.write(signature);
+    tempSignatureFile.close();
+
+    // Get left and top of selection relative to text border
+    int leftSelection =
+            selection->dynamicCall("Information(wdHorizontalPositionRelativeToTextBoundary)").toInt();
+    int topSelection =
+            selection->dynamicCall("Information(wdVerticalPositionRelativeToTextBoundary)").toInt();
+
+    // Calculate left and top to insert signature into document
     int leftToInsert = leftSelection - signWidth - 5;
     int topToInsert = topSelection - (signHeight - 12) / 4;
 
@@ -115,9 +124,11 @@ QByteArray DocOperations::putSignature(QDialog *form, QString documentName,
 
     if (!docFile.open(QIODevice::ReadOnly)) {
          MessageHandler::showOpenFileWarning(form);
+         docFile.remove();
          return {};
     }
     QByteArray docFileWithSignature = docFile.readAll();
     docFile.close();
+    docFile.remove();
     return docFileWithSignature;
 }

@@ -62,6 +62,8 @@ public:
         QFont font1;
         font1.setPointSize(11);
         settingsTableView->setFont(font1);
+        settingsTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        settingsTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
         verticalLayout->addWidget(settingsTableView);
 

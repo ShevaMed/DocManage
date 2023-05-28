@@ -16,17 +16,12 @@ PutSignatureForm::PutSignatureForm(QWidget *parent) :
     this->resize(800, 450);
     this->setFocus();
 
+    ui->signedCheckBox->setChecked(true);
+    ui->noteTextEdit->setDisabled(true);
+
     ui->documentsTableView->setModel(documentsModel_);
     ui->documentsTableView->setColumnHidden(5, true);
     ui->documentsTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-
-    QStringList docIds = DBManager::selectDocIdsFromDocUser(DBManager::userId);
-    if (docIds.isEmpty()) {
-        documentsModel_->setFilter("documents.id = -1");
-    } else {
-        QString docFilter = QString("documents.id IN (%1)").arg(docIds.join(", "));
-        documentsModel_->setFilter(docFilter);
-    }
 }
 
 PutSignatureForm::~PutSignatureForm()
@@ -90,6 +85,11 @@ void PutSignatureForm::on_putSignatureButton_clicked()
         return;
     }
 
+    if (!ui->signedCheckBox->isChecked()) {
+        MessageHandler::showAlreadySignedWarning(this);
+        return;
+    }
+
     QByteArray signature = DBManager::selectSignFromUsers(DBManager::userId);
     if (signature.isEmpty()) {
         MessageHandler::showEmptySignWarning(this);
@@ -114,12 +114,9 @@ void PutSignatureForm::on_putSignatureButton_clicked()
     }
 
     QString textForPutSign = firstName + ' ' + lastName;
-    qDebug() << textForPutSign;
-    QString docName = documentsModel_->record(currDocRow).field("document_name").value().toString();
-    QByteArray signedContent = DocOperations::putSignature(this, docName, content, signature,
+    QByteArray signedContent = DocOperations::putSignature(this, content, signature,
                                                            textForPutSign, signWidth, signHeight);
     if (signedContent.isEmpty()) {
-        MessageHandler::showInvalidPutSignWarning(this);
         return;
     }
 
@@ -127,6 +124,9 @@ void PutSignatureForm::on_putSignatureButton_clicked()
     if (DBManager::updateDocuments(docId, signedContent) &&
             DBManager::updateDocUser(docId, DBManager::userId, true)) {
         MessageHandler::showSuccessInfo(this, "Документ успішно підписано!");
+        documentsModel_->select();
+        ui->signedCheckBox->setChecked(!ui->signedCheckBox->isChecked());
+        ui->signedCheckBox->setChecked(!ui->signedCheckBox->isChecked());
     }
 }
 
@@ -139,5 +139,17 @@ void PutSignatureForm::on_documentsTableView_clicked(const QModelIndex &index)
     int docId = documentsModel_->record(index.row()).field("id").value().toInt();
     QString userNote = DBManager::selectUserNoteFromDocUser(docId);
     ui->userNoteTextEdit->setPlainText(userNote);
+}
+
+
+void PutSignatureForm::on_signedCheckBox_stateChanged(int arg1)
+{
+    QStringList docIds = DBManager::selectDocIdsFromDocUser(DBManager::userId, !arg1);
+    if (docIds.isEmpty()) {
+        documentsModel_->setFilter("documents.id = -1");
+        return;
+    }
+    QString docFilter = QString("documents.id IN (%1)").arg(docIds.join(", "));
+    documentsModel_->setFilter(docFilter);
 }
 

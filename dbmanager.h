@@ -43,6 +43,7 @@ public:
     static QVariant selectValueFromSettings(QString nameOfSetting);
     static QStringList selectUserIdsFromDocUser(int documentId);
     static QStringList selectDocIdsFromDocUser(int userId);
+    static QStringList selectDocIdsFromDocUser(int userId, bool checkSignature);
     static QPair<QString, QString> selectFLNameFromUsers(int userId);
     static QList<QString> selectFromUsers(QString firstName, QString lastName);
     static QByteArray selectSignFromUsers(int userId);

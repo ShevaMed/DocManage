@@ -20,6 +20,8 @@ public:
     static void showNotExistAccountWarning(QWidget *parent);
     static void showWrongPasswordWarning(QWidget *parent);
     static void showInvalidPutSignWarning(QWidget *parent);
+    static void showIsNotNameInDocWarning(QWidget *parent);
+    static void showAlreadySignedWarning(QWidget *parent);
     static void showSuccessInfo(QWidget *parent, QString message);
     static bool replyRewriteDocument(QWidget *parent);
 };

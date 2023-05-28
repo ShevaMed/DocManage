@@ -53,14 +53,14 @@ public:
     {
         if (LoadSignatureForm->objectName().isEmpty())
             LoadSignatureForm->setObjectName("LoadSignatureForm");
-        LoadSignatureForm->resize(784, 390);
+        LoadSignatureForm->resize(800, 390);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(LoadSignatureForm->sizePolicy().hasHeightForWidth());
         LoadSignatureForm->setSizePolicy(sizePolicy);
         horizontalLayout_5 = new QHBoxLayout(LoadSignatureForm);
-        horizontalLayout_5->setSpacing(30);
+        horizontalLayout_5->setSpacing(35);
         horizontalLayout_5->setObjectName("horizontalLayout_5");
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(5);
@@ -152,7 +152,7 @@ public:
 
         verticalLayout->addLayout(horizontalLayout);
 
-        verticalSpacer = new QSpacerItem(363, 23, QSizePolicy::Minimum, QSizePolicy::Preferred);
+        verticalSpacer = new QSpacerItem(363, 30, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
         verticalLayout->addItem(verticalSpacer);
 

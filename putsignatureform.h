@@ -29,6 +29,8 @@ private slots:
 
     void on_documentsTableView_clicked(const QModelIndex &index);
 
+    void on_signedCheckBox_stateChanged(int arg1);
+
 private:
     Ui::PutSignatureForm *ui;
     QSqlRelationalTableModel *documentsModel_;

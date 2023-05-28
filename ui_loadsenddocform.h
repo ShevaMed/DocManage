@@ -79,7 +79,7 @@ public:
 
         documentsTableView = new QTableView(LoadSendDocForm);
         documentsTableView->setObjectName("documentsTableView");
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(documentsTableView->sizePolicy().hasHeightForWidth());
@@ -157,11 +157,8 @@ public:
 
         usersTableView = new QTableView(LoadSendDocForm);
         usersTableView->setObjectName("usersTableView");
-        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(usersTableView->sizePolicy().hasHeightForWidth());
-        usersTableView->setSizePolicy(sizePolicy2);
+        sizePolicy.setHeightForWidth(usersTableView->sizePolicy().hasHeightForWidth());
+        usersTableView->setSizePolicy(sizePolicy);
         usersTableView->setFont(font1);
         usersTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         usersTableView->setTabKeyNavigation(true);
@@ -181,11 +178,11 @@ public:
 
         addUserToolButton = new QToolButton(LoadSendDocForm);
         addUserToolButton->setObjectName("addUserToolButton");
-        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(addUserToolButton->sizePolicy().hasHeightForWidth());
-        addUserToolButton->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(addUserToolButton->sizePolicy().hasHeightForWidth());
+        addUserToolButton->setSizePolicy(sizePolicy2);
         addUserToolButton->setIconSize(QSize(25, 25));
         addUserToolButton->setArrowType(Qt::RightArrow);
 
@@ -197,8 +194,8 @@ public:
 
         removeUserToolButton = new QToolButton(LoadSendDocForm);
         removeUserToolButton->setObjectName("removeUserToolButton");
-        sizePolicy3.setHeightForWidth(removeUserToolButton->sizePolicy().hasHeightForWidth());
-        removeUserToolButton->setSizePolicy(sizePolicy3);
+        sizePolicy2.setHeightForWidth(removeUserToolButton->sizePolicy().hasHeightForWidth());
+        removeUserToolButton->setSizePolicy(sizePolicy2);
         removeUserToolButton->setIconSize(QSize(25, 25));
         removeUserToolButton->setArrowType(Qt::LeftArrow);
 
@@ -223,8 +220,8 @@ public:
 
         docUserTableView = new QTableView(LoadSendDocForm);
         docUserTableView->setObjectName("docUserTableView");
-        sizePolicy2.setHeightForWidth(docUserTableView->sizePolicy().hasHeightForWidth());
-        docUserTableView->setSizePolicy(sizePolicy2);
+        sizePolicy.setHeightForWidth(docUserTableView->sizePolicy().hasHeightForWidth());
+        docUserTableView->setSizePolicy(sizePolicy);
         docUserTableView->setFont(font1);
         docUserTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         docUserTableView->setAlternatingRowColors(false);

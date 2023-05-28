@@ -53,9 +53,10 @@ void MessageHandler::showEmptyEditWarning(QWidget *parent, QString whomIsEmpty)
 
 void MessageHandler::showOpenFileWarning(QWidget *parent)
 {
-    QMessageBox::warning(parent, "Помилка відкриття", "Не вдалося відкрити файл. "
-                                                      "Можливо файл неправильно записаний "
-                                                      "або спробуйте ще раз.");
+    QMessageBox::warning(parent, "Помилка відкриття",
+                         "Не вдалося відкрити файл. "
+                         "Можливо файл неправильно записаний "
+                         "або спробуйте ще раз.");
 }
 
 void MessageHandler::showInvalidIndexWarning(QWidget *parent, QString whomIsSelected)
@@ -87,8 +88,22 @@ void MessageHandler::showWrongPasswordWarning(QWidget *parent)
 
 void MessageHandler::showInvalidPutSignWarning(QWidget *parent)
 {
-    QMessageBox::warning(parent, "Помилка підписання документа", "Не вдалося поставити підпис. "
-                                                                 "Спробуйте ще раз!");
+    QMessageBox::warning(parent, "Помилка підписання документа",
+                         "Не вдалося поставити підпис. "
+                         "Спробуйте ще раз!");
+}
+
+void MessageHandler::showIsNotNameInDocWarning(QWidget *parent)
+{
+    QMessageBox::warning(parent, "Помилка підписання документа",
+                         "Вашого ім'я немає у документі. "
+                         "Зверніться до автора документа!");
+}
+
+void MessageHandler::showAlreadySignedWarning(QWidget *parent)
+{
+    QMessageBox::warning(parent, "Помилка підписання документа",
+                         "Ви вже підписали цей документ!");
 }
 
 void MessageHandler::showSuccessInfo(QWidget *parent, QString message)

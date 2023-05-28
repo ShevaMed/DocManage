@@ -31,9 +31,15 @@ CREATE TABLE IF NOT EXISTS document_user (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE settings (
+CREATE TABLE IF NOT EXISTS settings (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name_ VARCHAR(100) NOT NULL UNIQUE,
   value_ VARCHAR(255) NOT NULL
 );
 
+INSERT INTO settings (name_, value_) 
+VALUES 
+('Код для реєстрації менеджера', '102003'), 
+('Ширина підпису', '77'),
+('Висота підпису', '23');
+ 

@@ -15,6 +15,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private:
+    void resetLoginSignupTab();
+
 private slots:
     void on_signupButton_clicked();
 

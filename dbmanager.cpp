@@ -153,6 +153,23 @@ QStringList DBManager::selectDocIdsFromDocUser(int userId)
     return documentIds;
 }
 
+QStringList DBManager::selectDocIdsFromDocUser(int userId, bool checkSignature)
+{
+    QSqlQuery query;
+    query.prepare("SELECT document_id FROM document_user "
+                  "WHERE user_id = :user_id AND check_signature = :check_signature");
+    query.bindValue(":user_id", userId);
+    query.bindValue(":check_signature", checkSignature);
+
+    QStringList documentIds;
+    if (DBManager::execute(query)) {
+        while (query.next()) {
+            documentIds.append(query.value("document_id").toString());
+        }
+    }
+    return documentIds;
+}
+
 QString DBManager::selectUserNoteFromDocUser(int documentId)
 {
     QSqlQuery query;
@@ -347,6 +364,9 @@ DBManager::~DBManager()
     }
     if (docUserModel) {
         delete docUserModel;
+    }
+    if (settingsModel) {
+        delete settingsModel;
     }
     if (database.isOpen()) {
         database.close();
