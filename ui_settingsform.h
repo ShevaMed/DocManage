@@ -10,6 +10,7 @@
 #define UI_SETTINGSFORM_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QHBoxLayout>
@@ -43,6 +44,9 @@ public:
         if (SettingsForm->objectName().isEmpty())
             SettingsForm->setObjectName("SettingsForm");
         SettingsForm->resize(550, 330);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/icons/icons/mainIcon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        SettingsForm->setWindowIcon(icon);
         verticalLayout_2 = new QVBoxLayout(SettingsForm);
         verticalLayout_2->setSpacing(3);
         verticalLayout_2->setObjectName("verticalLayout_2");
@@ -64,6 +68,8 @@ public:
         settingsTableView->setFont(font1);
         settingsTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         settingsTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+        settingsTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+        settingsTableView->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 
         verticalLayout->addWidget(settingsTableView);
 
@@ -92,6 +98,7 @@ public:
         sizePolicy.setHeightForWidth(valueEdit->sizePolicy().hasHeightForWidth());
         valueEdit->setSizePolicy(sizePolicy);
         valueEdit->setFont(font);
+        valueEdit->setClearButtonEnabled(true);
 
         horizontalLayout->addWidget(valueEdit);
 
@@ -129,7 +136,7 @@ public:
 
     void retranslateUi(QDialog *SettingsForm)
     {
-        SettingsForm->setWindowTitle(QCoreApplication::translate("SettingsForm", "Dialog", nullptr));
+        SettingsForm->setWindowTitle(QCoreApplication::translate("SettingsForm", "\320\227\320\274\321\226\320\275\320\270\321\202\320\270 \320\277\320\260\321\200\320\260\320\274\320\265\321\202\321\200\320\270", nullptr));
         label->setText(QCoreApplication::translate("SettingsForm", "\320\241\320\277\320\270\321\201\320\276\320\272 \320\277\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\226\320\262", nullptr));
         label_2->setText(QCoreApplication::translate("SettingsForm", "\320\227\320\275\320\260\321\207\320\265\320\275\320\275\321\217 \320\277\320\260\321\200\320\260\320\274\320\265\321\202\321\200\321\203", nullptr));
         saveButton->setText(QCoreApplication::translate("SettingsForm", "\320\227\320\261\320\265\321\200\320\265\320\263\321\202\320\270", nullptr));

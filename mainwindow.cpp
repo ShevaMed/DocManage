@@ -13,9 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->resize(700, 500);
+    this->setWindowIcon(QIcon(":/icons/icons/mainIcon.png"));
 
-    //ui->stackedWidget->setCurrentWidget(ui->loginPage);
-    //ui->tabWidget->setCurrentWidget(ui->loginTab);
+    ui->loginImageLabel->setPixmap(QPixmap(":/images/images/login.png"));
+
+    ui->stackedWidget->setCurrentWidget(ui->loginPage);
+    ui->tabWidget->setCurrentWidget(ui->loginTab);
     ui->signupTypeAccComboBox->setCurrentIndex(0);
 }
 
@@ -86,6 +89,7 @@ void MainWindow::on_signupButton_clicked()
                            ui->signupPasswordEdit->text(), ui->signupJobTitleEdit->text(),
                            ui->signupTypeAccComboBox->currentText())) {
         MessageHandler::showSuccessInfo(this, "Акаунт успішно зареєстрований!");
+        this->resetLoginSignupTab();
     }
 }
 
@@ -99,11 +103,6 @@ void MainWindow::on_loginButton_clicked()
 
     if (ui->loginLnameEdit->text().length() < 3) {
         MessageHandler::showEmptyEditWarning(this, "Прізвище");
-        return;
-    }
-
-    if (ui->loginPasswordEdit->text().length() < 3) {
-        MessageHandler::showEmptyEditWarning(this, "Пароль");
         return;
     }
 
@@ -219,5 +218,41 @@ void MainWindow::on_loginExitButton_clicked()
 void MainWindow::on_menuExitButton_clicked()
 {
     this->close();
+}
+
+
+void MainWindow::on_loginFnameEdit_cursorPositionChanged(int arg1, int arg2)
+{
+    int textLength = ui->loginFnameEdit->text().length();
+    if (arg2 > textLength) {
+        ui->loginFnameEdit->setCursorPosition(textLength);
+    }
+}
+
+
+void MainWindow::on_loginLnameEdit_cursorPositionChanged(int arg1, int arg2)
+{
+    int textLength = ui->loginLnameEdit->text().length();
+    if (arg2 > textLength) {
+        ui->loginLnameEdit->setCursorPosition(textLength);
+    }
+}
+
+
+void MainWindow::on_signupFnameEdit_cursorPositionChanged(int arg1, int arg2)
+{
+    int textLength = ui->signupFnameEdit->text().length();
+    if (arg2 > textLength) {
+        ui->signupFnameEdit->setCursorPosition(textLength);
+    }
+}
+
+
+void MainWindow::on_signupLnameEdit_cursorPositionChanged(int arg1, int arg2)
+{
+    int textLength = ui->signupLnameEdit->text().length();
+    if (arg2 > textLength) {
+        ui->signupLnameEdit->setCursorPosition(textLength);
+    }
 }
 

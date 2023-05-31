@@ -1,5 +1,13 @@
 <RCC>
-    <qresource prefix="/resources">
-        <file>images/docExamplePixmap.png</file>
+    <qresource prefix="/images">
+        <file>images/docExample.png</file>
+        <file>images/login.png</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file>icons/checkbox.png</file>
+        <file>icons/loadIcon.png</file>
+        <file>icons/mainIcon.png</file>
+        <file>icons/signDocIcon.png</file>
+        <file>icons/downarrow.png</file>
     </qresource>
 </RCC>

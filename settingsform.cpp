@@ -13,6 +13,7 @@ SettingsForm::SettingsForm(QWidget *parent) :
 {
     ui->setupUi(this);
     this->resize(550, 330);
+    this->setWindowIcon(QIcon(":/icons/icons/mainIcon.png"));
 
     ui->settingsTableView->setModel(settingsModel_);
     ui->settingsTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
@@ -41,6 +42,7 @@ void SettingsForm::on_saveButton_clicked()
     int settingId = settingsModel_->record(currRow).field("id").value().toInt();
     if (DBManager::updateSettings(settingId, ui->valueEdit->text())) {
         MessageHandler::showSuccessInfo(this, "Значення параметру успішно збережено!");
+        settingsModel_->select();
     }
 }
 

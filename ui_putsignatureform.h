@@ -10,6 +10,7 @@
 #define UI_PUTSIGNATUREFORM_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDialog>
@@ -59,6 +60,9 @@ public:
         if (PutSignatureForm->objectName().isEmpty())
             PutSignatureForm->setObjectName("PutSignatureForm");
         PutSignatureForm->resize(800, 450);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/icons/icons/signDocIcon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        PutSignatureForm->setWindowIcon(icon);
         verticalLayout_6 = new QVBoxLayout(PutSignatureForm);
         verticalLayout_6->setObjectName("verticalLayout_6");
         verticalLayout = new QVBoxLayout();
@@ -84,6 +88,8 @@ public:
         documentsTableView->setFont(font1);
         documentsTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         documentsTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+        documentsTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+        documentsTableView->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 
         verticalLayout->addWidget(documentsTableView);
 
@@ -257,7 +263,7 @@ public:
 
     void retranslateUi(QDialog *PutSignatureForm)
     {
-        PutSignatureForm->setWindowTitle(QCoreApplication::translate("PutSignatureForm", "Dialog", nullptr));
+        PutSignatureForm->setWindowTitle(QCoreApplication::translate("PutSignatureForm", "\320\237\320\265\321\200\320\265\320\263\320\273\321\217\320\275\321\203\321\202\320\270 \320\264\320\276\321\201\321\202\321\203\320\277\320\275\321\226 \320\264\320\276\320\272\321\203\320\274\320\265\320\275\321\202\320\270 \321\202\320\260 \320\277\320\276\321\201\321\202\320\260\320\262\320\270\321\202\320\270 \320\277\321\226\320\264\320\277\320\270\321\201", nullptr));
         label->setText(QCoreApplication::translate("PutSignatureForm", "\320\224\320\276\321\201\321\202\321\203\320\277\320\275\321\226 \320\264\320\276\320\272\321\203\320\274\320\265\320\275\321\202\320\270", nullptr));
         signedCheckBox->setText(QCoreApplication::translate("PutSignatureForm", "\320\237\320\276\320\272\320\260\320\267\321\203\320\262\320\260\321\202\320\270 \321\202\321\226\320\273\321\214\320\272\320\270 \320\275\320\265\320\277\321\226\320\264\320\277\320\270\321\201\320\260\320\275\321\226 \320\264\320\276\320\272\321\203\320\274\320\265\320\275\321\202\320\270", nullptr));
         label_2->setText(QCoreApplication::translate("PutSignatureForm", "\320\237\321\200\320\270\320\274\321\226\321\202\320\272\320\260 \320\264\320\276 \320\264\320\276\320\272\321\203\320\274\320\265\320\275\321\202\320\260", nullptr));

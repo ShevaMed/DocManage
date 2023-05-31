@@ -14,6 +14,7 @@ PutSignatureForm::PutSignatureForm(QWidget *parent) :
 {
     ui->setupUi(this);
     this->resize(800, 450);
+    this->setWindowIcon(QIcon(":/icons/icons/signDocIcon.png"));
     this->setFocus();
 
     ui->signedCheckBox->setChecked(true);
@@ -38,6 +39,11 @@ void PutSignatureForm::on_openDocButton_clicked()
     }
 
     QByteArray content = documentsModel_->record(currDocRow).field("content").value().toByteArray();
+    if (content.isEmpty()) {
+        MessageHandler::showEmptyFileWarning(this);
+        return;
+    }
+
     DocOperations::open(this, content);
 }
 
@@ -71,8 +77,13 @@ void PutSignatureForm::on_saveAsDocButton_clicked()
         return;
     }
 
-    QString docName = documentsModel_->record(currDocRow).field("document_name").value().toString();
     QByteArray content = documentsModel_->record(currDocRow).field("content").value().toByteArray();
+    if (content.isEmpty()) {
+        MessageHandler::showEmptyFileWarning(this);
+        return;
+    }
+
+    QString docName = documentsModel_->record(currDocRow).field("document_name").value().toString();
     DocOperations::saveAs(this, docName, content);
 }
 
@@ -137,7 +148,7 @@ void PutSignatureForm::on_documentsTableView_clicked(const QModelIndex &index)
     ui->noteTextEdit->setPlainText(docNote);
 
     int docId = documentsModel_->record(index.row()).field("id").value().toInt();
-    QString userNote = DBManager::selectUserNoteFromDocUser(docId);
+    QString userNote = DBManager::selectUserNoteFromDocUser(docId, DBManager::userId);
     ui->userNoteTextEdit->setPlainText(userNote);
 }
 

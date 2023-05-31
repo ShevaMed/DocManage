@@ -10,6 +10,7 @@
 #define UI_LOADSENDDOCFORM_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QHBoxLayout>
@@ -60,6 +61,9 @@ public:
         if (LoadSendDocForm->objectName().isEmpty())
             LoadSendDocForm->setObjectName("LoadSendDocForm");
         LoadSendDocForm->resize(1024, 576);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/icons/icons/mainIcon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        LoadSendDocForm->setWindowIcon(icon);
         verticalLayout_6 = new QVBoxLayout(LoadSendDocForm);
         verticalLayout_6->setSpacing(10);
         verticalLayout_6->setObjectName("verticalLayout_6");
@@ -89,6 +93,8 @@ public:
         documentsTableView->setFont(font1);
         documentsTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         documentsTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+        documentsTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+        documentsTableView->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 
         verticalLayout_4->addWidget(documentsTableView);
 
@@ -97,7 +103,7 @@ public:
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName("verticalLayout");
-        verticalSpacer_4 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Preferred);
+        verticalSpacer_4 = new QSpacerItem(20, 60, QSizePolicy::Minimum, QSizePolicy::Fixed);
 
         verticalLayout->addItem(verticalSpacer_4);
 
@@ -160,10 +166,13 @@ public:
         sizePolicy.setHeightForWidth(usersTableView->sizePolicy().hasHeightForWidth());
         usersTableView->setSizePolicy(sizePolicy);
         usersTableView->setFont(font1);
+        usersTableView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         usersTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         usersTableView->setTabKeyNavigation(true);
         usersTableView->setAlternatingRowColors(false);
         usersTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+        usersTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+        usersTableView->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 
         verticalLayout_2->addWidget(usersTableView);
 
@@ -226,6 +235,8 @@ public:
         docUserTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         docUserTableView->setAlternatingRowColors(false);
         docUserTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+        docUserTableView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+        docUserTableView->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
 
         verticalLayout_3->addWidget(docUserTableView);
 
@@ -268,7 +279,7 @@ public:
 
     void retranslateUi(QDialog *LoadSendDocForm)
     {
-        LoadSendDocForm->setWindowTitle(QCoreApplication::translate("LoadSendDocForm", "Dialog", nullptr));
+        LoadSendDocForm->setWindowTitle(QCoreApplication::translate("LoadSendDocForm", "\320\234\320\265\320\275\320\265\320\264\320\266\320\274\320\265\320\275\321\202 \320\264\320\276\320\272\321\203\320\274\320\265\320\275\321\202\321\226\320\262", nullptr));
         label_3->setText(QCoreApplication::translate("LoadSendDocForm", "\320\241\320\277\320\270\321\201\320\276\320\272 \320\264\320\276\320\272\321\203\320\274\320\265\320\275\321\202\321\226\320\262", nullptr));
         loadDocButton->setText(QCoreApplication::translate("LoadSendDocForm", "\320\227\320\260\320\262\320\260\320\275\321\202\320\260\320\266\320\270\321\202\320\270 \320\264\320\276\320\272\321\203\320\274\320\265\320\275\321\202", nullptr));
         editDocButton->setText(QCoreApplication::translate("LoadSendDocForm", "\320\240\320\265\320\264\320\260\320\263\321\203\320\262\320\260\321\202\320\270 \320\264\320\276\320\272\321\203\320\274\320\265\320\275\321\202", nullptr));

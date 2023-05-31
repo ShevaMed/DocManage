@@ -10,6 +10,7 @@
 #define UI_LOADSIGNATUREFORM_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QHBoxLayout>
@@ -53,12 +54,15 @@ public:
     {
         if (LoadSignatureForm->objectName().isEmpty())
             LoadSignatureForm->setObjectName("LoadSignatureForm");
-        LoadSignatureForm->resize(800, 390);
+        LoadSignatureForm->resize(800, 398);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(LoadSignatureForm->sizePolicy().hasHeightForWidth());
         LoadSignatureForm->setSizePolicy(sizePolicy);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/icons/icons/loadIcon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        LoadSignatureForm->setWindowIcon(icon);
         horizontalLayout_5 = new QHBoxLayout(LoadSignatureForm);
         horizontalLayout_5->setSpacing(35);
         horizontalLayout_5->setObjectName("horizontalLayout_5");
@@ -104,6 +108,7 @@ public:
         checkBox = new QCheckBox(LoadSignatureForm);
         checkBox->setObjectName("checkBox");
         checkBox->setFont(font);
+        checkBox->setIconSize(QSize(16, 16));
         checkBox->setChecked(true);
 
         verticalLayout->addWidget(checkBox);
@@ -245,7 +250,7 @@ public:
 
     void retranslateUi(QWidget *LoadSignatureForm)
     {
-        LoadSignatureForm->setWindowTitle(QCoreApplication::translate("LoadSignatureForm", "Form", nullptr));
+        LoadSignatureForm->setWindowTitle(QCoreApplication::translate("LoadSignatureForm", "\320\227\320\260\320\262\320\260\320\275\321\202\320\260\320\266\320\270\321\202\320\270 \321\201\320\262\321\226\320\271 \320\277\321\226\320\264\320\277\320\270\321\201", nullptr));
         label->setText(QCoreApplication::translate("LoadSignatureForm", "\320\227\320\276\320\261\321\200\320\260\320\266\320\265\320\275\320\275\321\217 \320\277\321\226\320\264\320\277\320\270\321\201\321\203, \321\217\320\272\320\265 \321\200\320\276\320\267\321\202\321\217\320\263\320\275\321\203\321\202\320\265 \320\264\320\276 \320\275\320\265\320\276\320\261\321\205\321\226\320\264\320\275\320\270\321\205 \320\277\321\200\320\276\320\277\320\276\321\200\321\206\321\226\320\271", nullptr));
         imageSignLabel->setText(QString());
         checkBox->setText(QCoreApplication::translate("LoadSignatureForm", "\320\221\321\226\320\273\320\270\320\271 \321\204\320\276\320\275", nullptr));

@@ -170,11 +170,13 @@ QStringList DBManager::selectDocIdsFromDocUser(int userId, bool checkSignature)
     return documentIds;
 }
 
-QString DBManager::selectUserNoteFromDocUser(int documentId)
+QString DBManager::selectUserNoteFromDocUser(int documentId, int userId)
 {
     QSqlQuery query;
-    query.prepare("SELECT user_note FROM document_user WHERE document_id = :document_id");
+    query.prepare("SELECT user_note FROM document_user "
+                  "WHERE document_id = :document_id and user_id = :user_id");
     query.bindValue(":document_id", documentId);
+    query.bindValue(":user_id", userId);
 
     if (DBManager::execute(query) && query.next()) {
         return query.value("user_note").toString();
@@ -282,6 +284,16 @@ bool DBManager::updateDocUser(int documentId, int userId, bool checkSignature)
     return DBManager::execute(query);
 }
 
+bool DBManager::updateDocUser(int documentId, bool checkSignature)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE document_user SET check_signature = :check_signature "
+                  "WHERE document_id = :document_id");
+    query.bindValue(":check_signature", checkSignature);
+    query.bindValue(":document_id", documentId);
+    return DBManager::execute(query);
+}
+
 bool DBManager::updateSettings(int settingId, QString settingValue)
 {
     QSqlQuery query;
@@ -307,11 +319,23 @@ bool DBManager::updateDocuments(int documentId, QString documentName, QString do
                                 QByteArray content)
 {
     QSqlQuery query;
-    query.prepare("UPDATE documents SET document_name = :document_name, "
-                  "note = :note, content = :content WHERE id = :id");
+    query.prepare("UPDATE documents SET document_name = :document_name, note = :note, "
+                  "download_date = :download_date, content = :content WHERE id = :id");
     query.bindValue(":document_name", documentName);
     query.bindValue(":note", documentNote);
+    query.bindValue(":download_date", QDate::currentDate());
     query.bindValue(":content", content);
+    query.bindValue(":id", documentId);
+    return DBManager::execute(query);
+}
+
+bool DBManager::updateDocuments(int documentId, QString documentName, QString documentNote)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE documents SET document_name = :document_name, note = :note "
+                  "WHERE id = :id");
+    query.bindValue(":document_name", documentName);
+    query.bindValue(":note", documentNote);
     query.bindValue(":id", documentId);
     return DBManager::execute(query);
 }

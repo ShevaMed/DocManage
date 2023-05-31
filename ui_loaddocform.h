@@ -10,6 +10,7 @@
 #define UI_LOADDOCFORM_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDialog>
@@ -47,6 +48,9 @@ public:
         if (LoadDocForm->objectName().isEmpty())
             LoadDocForm->setObjectName("LoadDocForm");
         LoadDocForm->resize(450, 400);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/icons/icons/loadIcon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        LoadDocForm->setWindowIcon(icon);
         verticalLayout = new QVBoxLayout(LoadDocForm);
         verticalLayout->setSpacing(7);
         verticalLayout->setObjectName("verticalLayout");
@@ -79,6 +83,7 @@ public:
         nameEdit = new QLineEdit(LoadDocForm);
         nameEdit->setObjectName("nameEdit");
         nameEdit->setFont(font);
+        nameEdit->setClearButtonEnabled(true);
 
         verticalLayout->addWidget(nameEdit);
 

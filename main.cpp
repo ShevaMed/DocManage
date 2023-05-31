@@ -27,11 +27,11 @@ int main(int argc, char *argv[])
 
     QString styleSheetFileName = "stylesheet.qss";
     QFile styleSheetFile(styleSheetFileName);
-    if (styleSheetFile.open(QFile::ReadOnly)) {
+    if (!styleSheetFile.open(QFile::ReadOnly)) {
+        MessageHandler::showOpenFileError(nullptr, styleSheetFileName);
+    } else {
         QString styleSheet = QLatin1String(styleSheetFile.readAll());
         a.setStyleSheet(styleSheet);
-    } else {
-        MessageHandler::showOpenFileError(nullptr, styleSheetFileName);
     }
 
     // Initialize the COM library
