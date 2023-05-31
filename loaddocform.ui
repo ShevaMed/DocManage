@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Завантаження документу</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/icons/loadIcon.png</normaloff>:/icons/icons/loadIcon.png</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>7</number>
@@ -81,6 +85,9 @@
       <font>
        <pointsize>13</pointsize>
       </font>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -215,6 +222,8 @@ hr { height: 1px; border-width: 0; }
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

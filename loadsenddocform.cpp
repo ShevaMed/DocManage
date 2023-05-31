@@ -17,6 +17,7 @@ LoadSendDocForm::LoadSendDocForm(QWidget *parent) :
 {
     ui->setupUi(this);
     this->resize(1024, 576);
+    this->setWindowIcon(QIcon(":/icons/icons/mainIcon.png"));
 
     ui->documentsTableView->setModel(documentsModel_);
     ui->documentsTableView->setColumnHidden(5, true);
@@ -61,7 +62,8 @@ void LoadSendDocForm::on_loadDocButton_clicked()
 
 void LoadSendDocForm::on_editDocButton_clicked()
 {
-    int currDocRow = ui->documentsTableView->currentIndex().row();
+    QModelIndex currDocIndex = ui->documentsTableView->currentIndex();
+    int currDocRow = currDocIndex.row();
     if (currDocRow < 0) {
         MessageHandler::showInvalidIndexWarning(this, "Документ");
         return;
@@ -74,7 +76,10 @@ void LoadSendDocForm::on_editDocButton_clicked()
     LoadDocForm loadDocForm(docId, docName, docNote);
     loadDocForm.setModal(true);
     loadDocForm.exec();
+
     documentsModel_->select();
+    docUserModel_->select();
+    ui->documentsTableView->setCurrentIndex(currDocIndex);
 }
 
 

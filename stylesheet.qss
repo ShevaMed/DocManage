@@ -162,6 +162,10 @@ QPushButton
 	border-width: 1px;
 	border-radius: 3px;
 	border-color: #051a39;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 15px;
 	padding: 5px;
 
 }
@@ -278,6 +282,7 @@ QComboBox::disabled
 QComboBox:hover
 {
     background-color: #646464;
+    border: 1px solid #00ff00;
 
 }
 
@@ -285,7 +290,7 @@ QComboBox:hover
 QComboBox:on
 {
     background-color: #979796;
-	color: #000000;
+    color: #000000;
 
 }
 
@@ -294,7 +299,7 @@ QComboBox QAbstractItemView
 {
     background-color: #c4c5c3;
     color: #000000;
-    border: 1px solid black;
+    border: 1px solid #00ff00; 
     selection-background-color: #363942;
     selection-color: #ffffff;
     outline: 0;
@@ -318,9 +323,9 @@ QComboBox::drop-down
 
 QComboBox::down-arrow
 {
-    image: url(://arrow-down.png);
-    width: 8px;
-    height: 8px;
+    image: url(icons/downarrow.png);
+    width: 16px;
+    height: 16px;
 }
 
 
@@ -586,13 +591,13 @@ QCheckBox::indicator
 
 QCheckBox::indicator:checked
 {
-    image:url(://checkbox.png);
-    border: 2px solid #00ff00;
+    image:url(icons//checkbox.png);
+    
 
 }
 
 
-QCheckBox::indicator:unchecked:hover
+QCheckBox::indicator:hover
 {
     border: 2px solid #00ff00;
 
@@ -751,7 +756,7 @@ QHeaderView::section:disabled
 
 QHeaderView::section:checked
 {
-    background-color: #00ff00;
+   /* background-color: #00ff00; */
 
 }
 

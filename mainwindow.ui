@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>500</height>
+    <height>543</height>
    </rect>
   </property>
   <property name="font">
@@ -16,7 +16,11 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Система управління документами</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/icons/mainIcon.png</normaloff>:/icons/icons/mainIcon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -38,7 +42,7 @@
            <enum>QTabWidget::Rounded</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <property name="elideMode">
            <enum>Qt::ElideNone</enum>
@@ -86,7 +90,7 @@
               </property>
               <property name="font">
                <font>
-                <pointsize>16</pointsize>
+                <pointsize>18</pointsize>
                </font>
               </property>
               <property name="text">
@@ -147,6 +151,9 @@
                     <property name="cursorMoveStyle">
                      <enum>Qt::LogicalMoveStyle</enum>
                     </property>
+                    <property name="clearButtonEnabled">
+                     <bool>true</bool>
+                    </property>
                    </widget>
                   </item>
                  </layout>
@@ -175,11 +182,17 @@
                       <pointsize>13</pointsize>
                      </font>
                     </property>
+                    <property name="inputMethodHints">
+                     <set>Qt::ImhNone</set>
+                    </property>
                     <property name="inputMask">
                      <string>&gt;AAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</string>
                     </property>
                     <property name="cursorMoveStyle">
                      <enum>Qt::LogicalMoveStyle</enum>
+                    </property>
+                    <property name="clearButtonEnabled">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -217,6 +230,9 @@
                     </property>
                     <property name="cursorMoveStyle">
                      <enum>Qt::LogicalMoveStyle</enum>
+                    </property>
+                    <property name="clearButtonEnabled">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -279,7 +295,16 @@
                    </sizepolicy>
                   </property>
                   <property name="text">
-                   <string>TextLabel</string>
+                   <string/>
+                  </property>
+                  <property name="pixmap">
+                   <pixmap resource="resources.qrc">:/images/images/login.png</pixmap>
+                  </property>
+                  <property name="scaledContents">
+                   <bool>false</bool>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignBottom|Qt::AlignHCenter</set>
                   </property>
                  </widget>
                 </item>
@@ -351,7 +376,7 @@
               </property>
               <property name="font">
                <font>
-                <pointsize>16</pointsize>
+                <pointsize>18</pointsize>
                </font>
               </property>
               <property name="text">
@@ -422,7 +447,7 @@
                      <number>0</number>
                     </property>
                     <property name="clearButtonEnabled">
-                     <bool>false</bool>
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -454,6 +479,9 @@
                     </property>
                     <property name="inputMask">
                      <string>&gt;AAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</string>
+                    </property>
+                    <property name="clearButtonEnabled">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -488,6 +516,9 @@
                     </property>
                     <property name="echoMode">
                      <enum>QLineEdit::Password</enum>
+                    </property>
+                    <property name="clearButtonEnabled">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -614,8 +645,8 @@
                       <pointsize>13</pointsize>
                      </font>
                     </property>
-                    <property name="inputMask">
-                     <string>9999999999</string>
+                    <property name="clearButtonEnabled">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -648,11 +679,14 @@
                       <pointsize>13</pointsize>
                      </font>
                     </property>
+                    <property name="inputMethodHints">
+                     <set>Qt::ImhPreferUppercase</set>
+                    </property>
                     <property name="inputMask">
                      <string/>
                     </property>
-                    <property name="maxLength">
-                     <number>100</number>
+                    <property name="clearButtonEnabled">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -687,6 +721,9 @@
                     </property>
                     <property name="echoMode">
                      <enum>QLineEdit::Password</enum>
+                    </property>
+                    <property name="clearButtonEnabled">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -767,7 +804,7 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>16</pointsize>
+            <pointsize>18</pointsize>
            </font>
           </property>
           <property name="text">
@@ -789,7 +826,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>15</height>
+            <height>25</height>
            </size>
           </property>
          </spacer>
@@ -809,7 +846,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>16</pointsize>
              </font>
             </property>
             <property name="text">
@@ -824,7 +861,7 @@
            <widget class="QLabel" name="menuJobTitleLabel">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>16</pointsize>
              </font>
             </property>
             <property name="text">
@@ -836,7 +873,7 @@
            <widget class="QLabel" name="menuTypeAccLabel">
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>16</pointsize>
              </font>
             </property>
             <property name="text">
@@ -857,71 +894,17 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>15</height>
+            <height>20</height>
            </size>
           </property>
          </spacer>
         </item>
         <item>
-         <layout class="QGridLayout" name="gridLayout_5">
+         <layout class="QVBoxLayout" name="verticalLayout_19">
           <property name="spacing">
            <number>10</number>
           </property>
-          <item row="0" column="0">
-           <widget class="QPushButton" name="putSignatureButton">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Поставити підпис</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QPushButton" name="settingsButton">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Змінити параметри</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QPushButton" name="loadSignatureButton">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Завантажити підпис</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
+          <item>
            <widget class="QPushButton" name="loadSendDocButton">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
@@ -931,11 +914,65 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>14</pointsize>
+              <pointsize>16</pointsize>
              </font>
             </property>
             <property name="text">
-             <string>Завантажити та скачати документ</string>
+             <string>Менеджмент документів</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="putSignatureButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Переглянути документи та поставити підпис</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="loadSignatureButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Завантажити свій підпис</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="settingsButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Змінити параметри</string>
             </property>
            </widget>
           </item>
@@ -952,7 +989,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>20</height>
+            <height>25</height>
            </size>
           </property>
          </spacer>
@@ -972,7 +1009,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -990,7 +1027,7 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>13</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1017,6 +1054,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

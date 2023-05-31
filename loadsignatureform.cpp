@@ -12,15 +12,16 @@ LoadSignatureForm::LoadSignatureForm(int signWidth, int signHeight,
     QDialog(parent),
     ui(new Ui::LoadSignatureForm),
     signWidth_(signWidth), signHeight_(signHeight),
-    baseWindowWidth_(410), baseWindowHeight_(390), windowMinWidth_(800),
+    baseWindowWidth_(430), baseWindowHeight_(390), windowMinWidth_(800),
     zoomFactorSignInDoc_(2), signLabelHeight_(80),
     signLabelWidth_(signWidth * signLabelHeight_ / signHeight),
     signInDocLabelWidth_(signWidth * zoomFactorSignInDoc_)
 {
     ui->setupUi(this);
     this->setMinimumWidth(windowMinWidth_);
+    this->setWindowIcon(QIcon(":/icons/icons/loadIcon.png"));
 
-    QPixmap docExamplePixmap(":/resources/images/docExamplePixmap.png");
+    QPixmap docExamplePixmap(":/images/images/docExample.png");
     int docLabelWidth = docExamplePixmap.width();
 
     windowWidth_ = baseWindowWidth_ +

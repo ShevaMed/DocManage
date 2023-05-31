@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>390</height>
+    <height>398</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -17,7 +17,11 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Завантажити свій підпис</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/icons/loadIcon.png</normaloff>:/icons/icons/loadIcon.png</iconset>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_5">
    <property name="spacing">
@@ -112,6 +116,12 @@
        </property>
        <property name="text">
         <string>Білий фон</string>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -208,7 +218,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="resources.qrc">:/resources/images/docExamplePixmap.png</pixmap>
+          <pixmap>:/resources/images/docExamplePixmap.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>false</bool>

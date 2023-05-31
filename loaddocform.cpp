@@ -12,6 +12,7 @@ LoadDocForm::LoadDocForm(int documentId, QWidget *parent) :
 {
     ui->setupUi(this);
     this->resize(450, 400);
+    this->setWindowIcon(QIcon(":/icons/icons/loadIcon.png"));
 }
 
 LoadDocForm::LoadDocForm(QWidget *parent) :
@@ -68,36 +69,39 @@ void LoadDocForm::on_loadButton_clicked()
 
 void LoadDocForm::on_saveButton_clicked()
 {
-    if (ui->nameEdit->text().isEmpty()) {
+    QString docName = ui->nameEdit->text();
+    if (docName.isEmpty()) {
         MessageHandler::showEmptyEditWarning(this, "Назву документа");
         return;
     }
 
-    if (path_.isNull() && documentId_ < 0) {
-        MessageHandler::showEmptyFileWarning(this);
-        return;
-    }
+    QString docNote = ui->noteTextEdit->toPlainText();
 
-    QByteArray content;
-    if (!path_.isEmpty()) {
-        QFile document(path_);
-        if (!document.open(QIODevice::ReadOnly)) {
-            MessageHandler::showOpenFileWarning(this);
-            return;
+    if (path_.isEmpty()) {
+        if (documentId_ < 0) {
+            MessageHandler::showEmptyFileWarning(this);
         }
-        content = document.readAll();
-        document.close();
-    }
-
-    if (documentId_ >= 0 && DBManager::updateDocuments(documentId_, ui->nameEdit->text(),
-                                                       ui->noteTextEdit->toPlainText(), content)) {
-        MessageHandler::showSuccessInfo(this, "Документ успішно оновлений у базі даних!");
+        else if (DBManager::updateDocuments(documentId_, docName, docNote)) {
+            MessageHandler::showSuccessInfo(this, "Документ успішно оновлений у базі даних!");
+        }
         return;
     }
 
-    if (documentId_ < 0 && DBManager::insertDocuments(ui->nameEdit->text(),
-                                                      DBManager::userId, content,
-                                                      ui->noteTextEdit->toPlainText())) {
+    QFile document(path_);
+    if (!document.open(QIODevice::ReadOnly)) {
+        MessageHandler::showOpenFileWarning(this);
+        return;
+    }
+    QByteArray content = document.readAll();
+    document.close();
+
+    if (documentId_ >= 0) {
+        if (DBManager::updateDocuments(documentId_, docName, docNote, content) &&
+                DBManager::updateDocUser(documentId_, false)) {
+            MessageHandler::showSuccessInfo(this, "Документ успішно оновлений у базі даних!");
+        }
+    }
+    else if (DBManager::insertDocuments(docName, DBManager::userId, content, docNote)) {
         MessageHandler::showSuccessInfo(this,"Документ успішно завантажено у базу даних!");
     }
 }

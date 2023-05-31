@@ -33,13 +33,16 @@ public:
     static bool updateUserSign(int userId, const QByteArray& signature);
     static bool updateDocUser(int documentId, int userId, QString userNote);
     static bool updateDocUser(int documentId, int userId, bool checkSignature);
+    static bool updateDocUser(int documentId, bool checkSignature);
     static bool updateSettings(int settingId, QString settingValue);
-    static bool updateDocuments(int documentId, QByteArray content);
     static bool updateDocuments(int documentId, QString documentName,
                                 QString documentNote, QByteArray content);
+    static bool updateDocuments(int documentId, QString documentName,
+                                QString documentNote);
+    static bool updateDocuments(int documentId, QByteArray content);
 
     static int selectIdFromUsers(QString firstName, QString lastName);
-    static QString selectUserNoteFromDocUser(int documentId);
+    static QString selectUserNoteFromDocUser(int documentId, int userId);
     static QVariant selectValueFromSettings(QString nameOfSetting);
     static QStringList selectUserIdsFromDocUser(int documentId);
     static QStringList selectDocIdsFromDocUser(int userId);

@@ -39,6 +39,14 @@ private slots:
 
     void on_menuExitButton_clicked();
 
+    void on_loginFnameEdit_cursorPositionChanged(int arg1, int arg2);
+
+    void on_loginLnameEdit_cursorPositionChanged(int arg1, int arg2);
+
+    void on_signupFnameEdit_cursorPositionChanged(int arg1, int arg2);
+
+    void on_signupLnameEdit_cursorPositionChanged(int arg1, int arg2);
+
 private:
     Ui::MainWindow *ui;
 };
