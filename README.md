@@ -1,9 +1,9 @@
 # DocManage
 DocManage is a Microsoft Word document management system written in Qt (C++) for the Windows platform. 
 
-DocManage is designed to make it easy for users to upload, download and share documents. It provides features such as uploading, sharing, document commenting, and digital signatures. 
+The system is designed to make it easy for users to upload, download and share documents. It provides features such as uploading, sharing, document commenting, and digital signatures. 
 
-The system uses a MySQL database to store documents, signatures, user data, and parameters.
+DocManage uses a MySQL database to store documents, signatures, user data, and parameters.
 
 ## Installation
 To set up the project, follow these steps:
