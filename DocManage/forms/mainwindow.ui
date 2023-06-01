@@ -19,7 +19,7 @@
    <string>Система управління документами</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset resource="../resources.qrc">
     <normaloff>:/icons/icons/mainIcon.png</normaloff>:/icons/icons/mainIcon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -298,7 +298,7 @@
                    <string/>
                   </property>
                   <property name="pixmap">
-                   <pixmap resource="resources.qrc">:/images/images/login.png</pixmap>
+                   <pixmap resource="../resources.qrc">:/images/images/login.png</pixmap>
                   </property>
                   <property name="scaledContents">
                    <bool>false</bool>
@@ -1055,7 +1055,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections/>
 </ui>

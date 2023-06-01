@@ -14,7 +14,7 @@
    <string>Завантаження документу</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset resource="../resources.qrc">
     <normaloff>:/icons/icons/loadIcon.png</normaloff>:/icons/icons/loadIcon.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -223,7 +223,7 @@ hr { height: 1px; border-width: 0; }
   </layout>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections/>
 </ui>

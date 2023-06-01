@@ -32,12 +32,12 @@ HEADERS += \
     settingsform.h
 
 FORMS += \
-    loaddocform.ui \
-    loadsenddocform.ui \
-    loadsignatureform.ui \
-    mainwindow.ui \
-    putsignatureform.ui \
-    settingsform.ui
+    forms/loaddocform.ui \
+    forms/loadsenddocform.ui \
+    forms/loadsignatureform.ui \
+    forms/mainwindow.ui \
+    forms/putsignatureform.ui \
+    forms/settingsform.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -20,7 +20,7 @@
    <string>Завантажити свій підпис</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset resource="../resources.qrc">
     <normaloff>:/icons/icons/loadIcon.png</normaloff>:/icons/icons/loadIcon.png</iconset>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -425,7 +425,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections/>
 </ui>
