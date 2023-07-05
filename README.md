@@ -33,6 +33,7 @@ To set up the project, follow these steps:
 - Microsoft Word (>= 16.0) Object Library (comes with Microsoft Office)
 - Desktop MSVC2019 64bit
 - Qt Creator (>= 8.0.2) or other IDE
+
 To download Qt, Compiler and IDE, you need to follow the link: https://www.qt.io/download-open-source and download the Qt Online Installer or Qt Source Packages.
 
 ## Technologies Used
