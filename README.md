@@ -20,7 +20,7 @@ To set up the project, follow these steps:
 2. Ensure you have a remote MySQL server.
 3. On your remote MySQL server execute file `init_database.sql` to create database, tables and initialize some tables.
 4. Configure the database connection parameters in the `DocManage/database.ini file`.
-5. Install the necessary technologies and libraries specified in the project's [Technologies Used](#dependencies).
+5. Install the necessary technologies and libraries specified in the project's [Dependencies](#dependencies).
 6. Go to the `lib/sqldrivers` folder and copy files into your sqldrivers Qt folder following this path `../Qt/6.4.0/msvc2019_64/plugins/sqldrivers`.
 7. Build a project with Qt Creator using the `DocManage/DocManage.pro` file.
 8. Compile the project with the Desktop compiler MSVC2019 64bit.
