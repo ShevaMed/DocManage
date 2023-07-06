@@ -29,9 +29,9 @@ To set up the project, follow these steps:
 
 ## Dependencies
 - Qt (>= 6.4.0) in C++
-- MySQL (>= 8.0) (if you are setting up a remote server)
+- MySQL (>= 8.0) (if you are setting up a remote server): https://dev.mysql.com/downloads/installer/
 - Microsoft Word (>= 16.0) Object Library (comes with Microsoft Office)
-- Desktop MSVC2019 64bit
+- Desktop Microsoft Visual C++ Compiler (>= 17.3) 64-bit
 - Qt Creator (>= 8.0.2) or other IDE
 
 To download Qt, Compiler and IDE, you need to follow the link: https://www.qt.io/download-open-source and download the Qt Online Installer or Qt Source Packages.
@@ -40,7 +40,7 @@ To download Qt, Compiler and IDE, you need to follow the link: https://www.qt.io
 - Framework: Qt 6.4.0 in C++
 - Database: MySQL 8.0
 - MS Word document interaction: Microsoft Word 16.0 Object Library
-- Compiler: Desktop MSVC2019 64bit
+- Compiler: Desktop Microsoft Visual C++ Compiler 17.3 64-bit
 - IDE: Qt Creator 8.0.2
 
 ## Screenshots
