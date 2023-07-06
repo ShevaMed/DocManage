@@ -23,7 +23,7 @@ To set up the project, follow these steps:
 5. Install the necessary technologies and libraries specified in the project's [Dependencies](#dependencies).
 6. Go to the `lib/sqldrivers` folder and copy files into your sqldrivers Qt folder following this path `../Qt/6.4.0/msvc2019_64/plugins/sqldrivers`.
 7. Build a project with Qt Creator using the `DocManage/DocManage.pro` file.
-8. Compile the project with the Desktop compiler MSVC2019 64bit.
+8. Compile the project with the Desktop Microsoft Visual C++ Compiler (>= 17.3) 64-bit.
 9. After compiling, go to the `lib` folder and copy the file `libmysql.dll` into the compiled file `.exe` folder.
 10. Now you can run the program using Qt Creator or `.exe` file.
 
